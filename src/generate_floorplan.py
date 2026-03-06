@@ -124,6 +124,12 @@ FILL_COLORS = {
     "kitchen":    (1.00, 0.97, 0.92),
     "balcony":    (0.92, 0.97, 0.92),
     "terrace":    (0.92, 0.97, 0.92),
+    "living_room":     (0.98, 1.00, 0.96),
+    "working_room":    (0.91, 0.93, 0.97),
+    "master_bedroom":  (1.00, 0.98, 0.94),
+    "bedroom_2":       (1.00, 0.91, 0.82),
+    "ensuite":         (0.86, 0.91, 0.98),
+    "laundry":         (0.96, 0.96, 0.96),
 }
 
 
@@ -220,6 +226,23 @@ def draw_floor(spec, floor):
         make_circle(sk["x"] + sk["w"] / 2, sk["y"] + sk["h"] / 2,
                     55, "sink_drain", grp_symbols)
 
+    # ── 6b. WINDOWS ───────────────────────────────────────────────────────────
+    for e in floor.get("elements", []):
+        if e["type"] == "window":
+            wx = e["x"]
+            wy = e["y"]
+            ww = e["width_mm"]
+            wt = e.get("wall_thickness_mm", 200)
+            mid_y = wy + wt / 2
+            # Center line of glass
+            make_line(wx, mid_y, wx + ww, mid_y,
+                      f"win_{e['id']}_glass", grp_symbols)
+            # Perpendicular ticks at edges
+            make_line(wx, wy + 20, wx, wy + wt - 20,
+                      f"win_{e['id']}_tick_L", grp_symbols)
+            make_line(wx + ww, wy + 20, wx + ww, wy + wt - 20,
+                      f"win_{e['id']}_tick_R", grp_symbols)
+
     # ── 7. DOORS (data-driven from spec) ─────────────────────────────────────
     print("  Drawing doors...")
     for door in floor.get("doors", []):
@@ -230,6 +253,16 @@ def draw_floor(spec, floor):
             make_arc(door["arc_cx"], door["arc_cy"], door["arc_r"],
                      door["arc_start"], door["arc_end"],
                      f"{door['id']}_arc", grp_symbols)
+        elif door["type"] == "sliding":
+            # Sliding door: two parallel lines spanning the opening
+            sx = door["x"]
+            sy = door["y"]
+            sw = door["width_mm"]
+            wt = door.get("wall_thickness_mm", 100)
+            make_line(sx, sy, sx + sw, sy,
+                      f"{door['id']}_track1", grp_symbols)
+            make_line(sx, sy + wt, sx + sw, sy + wt,
+                      f"{door['id']}_track2", grp_symbols)
         elif door["type"] == "garage_opening":
             obj = make_line(door["x"], door.get("y", 10),
                             door["x"] + door["width_mm"], door.get("y", 10),
