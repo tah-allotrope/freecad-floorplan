@@ -1,0 +1,79 @@
+HOW TO RUN THE FLOORPLAN GENERATOR
+===================================
+
+STEP 1 — Install FreeCAD (if not already installed)
+----------------------------------------------------
+Download from: https://www.freecad.org/downloads.php
+Install the Windows version (latest stable, e.g. 0.21).
+During install, keep all defaults.
+
+STEP 2 — Verify install
+-----------------------
+Open a terminal (Win + R, type "cmd", press Enter) and run:
+    freecad --version
+If you see a version number, you're good.
+If "freecad is not recognized", add FreeCAD to your PATH:
+    - Open System Properties > Environment Variables
+    - Add to PATH: C:\Program Files\FreeCAD 0.21\bin
+
+STEP 3 — Run the script (easiest way: FreeCAD GUI)
+---------------------------------------------------
+1. Open FreeCAD
+2. Menu: Macro > Macros...
+3. Click "Create..." and name it "generate_floorplan"
+4. Paste the contents of src/generate_floorplan.py
+5. Click "Execute"
+
+OR use the Python console inside FreeCAD:
+1. Open FreeCAD
+2. Menu: View > Panels > Python Console
+3. Paste this one line and press Enter:
+       exec(open(r'C:\Users\tukum\Downloads\freecad-floorplan\src\generate_floorplan.py').read())
+
+STEP 4 — Check the output
+--------------------------
+After running, check the output folder for these new files:
+    output/fcstd/floorplan_F0.FCStd   <- open this in FreeCAD to view/edit
+    output/dxf/floorplan_F0.dxf       <- send this to your architect
+    output/svg/freecad_F0.svg         <- SVG preview (open in browser)
+
+Each floor gets its own set of files (F0 = ground, F1 = first, etc.).
+
+STEP 5 — View the DXF
+---------------------
+To verify the DXF looks correct before sending to architect,
+open it in LibreCAD (free) or view online at:
+    https://sharecad.org  (drag and drop DXF file)
+    https://a360.autodesk.com/viewer
+
+PROJECT STRUCTURE
+=================
+freecad-floorplan/
+├── spec/                         Source of truth
+│   └── floorplan-spec.json         Structured data for all floors
+├── src/                          Scripts
+│   └── generate_floorplan.py       FreeCAD Python script (reads JSON → CAD)
+├── output/                       Generated files (can be regenerated)
+│   ├── fcstd/                      FreeCAD project files
+│   ├── dxf/                        DXF exports for architect
+│   └── svg/                        SVG previews
+├── reference/                    Original inputs / inspiration
+│   ├── gemini_original.html        Original Gemini-generated HTML preview
+│   └── floor_0_ground.svg         Hand-crafted to-scale SVG (1 unit = 1mm)
+├── docs/                         Documentation
+│   ├── HOW_TO_RUN.txt              This file
+│   └── lessons-learned.md          Notes from development
+└── .gitignore
+
+TROUBLESHOOTING
+===============
+Q: "importDXF not found" error
+A: This is a FreeCAD module. Make sure you're running the script
+   INSIDE FreeCAD (Python console or Macro), not from a regular terminal.
+
+Q: Script runs but DXF export fails
+A: Open the .FCStd file in FreeCAD GUI, select all objects (Ctrl+A),
+   then File > Export > choose "AutoCAD DXF" format.
+
+Q: FreeCAD shows nothing / blank document
+A: Run doc.recompute() in the Python console, then press V+F (fit all).

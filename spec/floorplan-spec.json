@@ -1,0 +1,192 @@
+{
+  "_comment": "Floorplan spec — 4x25m Tubehouse. All dimensions in mm. Origin at front-left exterior corner. X = width (0=left, 4000=right), Y = depth (0=front/street, 25000=rear).",
+  "project": {
+    "name": "4x25m Tubehouse",
+    "location": "Urban Narrow Lot",
+    "date": "2026-03",
+    "status": "concept",
+    "plot_width_mm": 4000,
+    "plot_depth_mm": 25000,
+    "num_floors": 5
+  },
+  "wall_thickness": {
+    "exterior_mm": 200,
+    "interior_horizontal_mm": 100,
+    "interior_vertical_mm": 100
+  },
+  "floors": [
+    {
+      "level": 0,
+      "name": "Ground Floor",
+      "sheet": "A-101",
+      "floor_to_ceiling_mm": 3500,
+
+      "zones": [
+        { "id": "parking",    "name": "PARKING / ENTRANCE",   "y_start": 0,     "y_end": 5000,  "depth_mm": 5000  },
+        { "id": "commercial", "name": "COMMERCIAL / FOR RENT", "y_start": 5000,  "y_end": 15000, "depth_mm": 10000 },
+        { "id": "core",       "name": "CORE",                  "y_start": 15000, "y_end": 19000, "depth_mm": 4000  },
+        { "id": "utility",    "name": "UTILITY / BATHROOM",    "y_start": 19000, "y_end": 23000, "depth_mm": 4000  },
+        { "id": "rear_void",  "name": "REAR LIGHT WELL",       "y_start": 23000, "y_end": 25000, "depth_mm": 2000  }
+      ],
+
+      "walls": [
+        { "id": "ext_left",          "x": 0,    "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Left Exterior Wall"   },
+        { "id": "ext_right",         "x": 3800, "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Right Exterior Wall"  },
+        { "id": "ext_rear",          "x": 0,    "y": 24800, "w": 4000, "h": 200,   "type": "exterior",  "label": "Rear Exterior Wall"   },
+        { "id": "front_left_pier",   "x": 0,    "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Left Pier"      },
+        { "id": "front_right_pier",  "x": 3400, "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Right Pier"     },
+        { "id": "part_park_comm",    "x": 200,  "y": 5000,  "w": 3600, "h": 100,   "type": "partition", "label": "Partition: Parking/Commercial" },
+        { "id": "part_comm_core",    "x": 200,  "y": 15000, "w": 3600, "h": 100,   "type": "partition", "label": "Partition: Commercial/Core"    },
+        { "id": "part_core_util_L",  "x": 200,  "y": 19000, "w": 900,  "h": 100,   "type": "partition", "label": "Partition: Core/Utility (left of door)" },
+        { "id": "part_core_util_R",  "x": 1900, "y": 19000, "w": 2900, "h": 100,   "type": "partition", "label": "Partition: Core/Utility (right of door)" },
+        { "id": "part_util_rear",    "x": 1000, "y": 23000, "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Utility/Rear Void" },
+        { "id": "core_lift_sep",     "x": 1000, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Lift/Stair Separator"   },
+        { "id": "core_stair_sep",    "x": 2700, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Stair/Void Separator"    },
+        { "id": "util_bath_wall",    "x": 2350, "y": 19100, "w": 100,  "h": 3900,  "type": "partition", "label": "Utility: Bathroom Wall"        }
+      ],
+
+      "rooms": [
+        {
+          "id": "parking",    "name": "PARKING",
+          "x": 200, "y": 200, "w": 3600, "h": 4800,
+          "area_sqm": 17.28, "use": "parking",
+          "fill": "#e8ecf1"
+        },
+        {
+          "id": "commercial", "name": "COMMERCIAL — FOR RENT",
+          "x": 200, "y": 5100, "w": 3600, "h": 9900,
+          "area_sqm": 35.64, "use": "commercial",
+          "fill": "#ffffff"
+        },
+        {
+          "id": "lift_shaft", "name": "LIFT SHAFT",
+          "x": 200, "y": 15100, "w": 800, "h": 3900,
+          "area_sqm": 3.12, "use": "circulation",
+          "fill": "#cbd5e1"
+        },
+        {
+          "id": "staircase",  "name": "STAIRCASE",
+          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
+          "area_sqm": 6.24, "use": "circulation",
+          "fill": "#e9edf2"
+        },
+        {
+          "id": "core_void",  "name": "LIGHT WELL",
+          "x": 2800, "y": 15100, "w": 1000, "h": 3900,
+          "area_sqm": 3.90, "use": "void",
+          "fill": "#eff6ff"
+        },
+        {
+          "id": "utility",    "name": "UTILITY / STAFF",
+          "x": 200, "y": 19100, "w": 2150, "h": 3900,
+          "area_sqm": 8.39, "use": "utility",
+          "fill": "#fafafa"
+        },
+        {
+          "id": "bathroom",   "name": "BATHROOM",
+          "x": 2450, "y": 19100, "w": 1350, "h": 3900,
+          "area_sqm": 5.27, "use": "bathroom",
+          "fill": "#dbeafe"
+        },
+        {
+          "id": "rear_void",  "name": "REAR LIGHT WELL",
+          "x": 200, "y": 23100, "w": 3600, "h": 1700,
+          "area_sqm": 6.12, "use": "void",
+          "fill": "#eff6ff"
+        }
+      ],
+
+      "elements": [
+        {
+          "type": "stairs",
+          "id": "main_stair",
+          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
+          "direction": "up",
+          "tread_depth_mm": 280,
+          "num_treads": 13
+        },
+        {
+          "type": "lift",
+          "id": "main_lift",
+          "x": 200, "y": 15100, "w": 800, "h": 3900
+        },
+        {
+          "type": "light_well",
+          "id": "core_light_well",
+          "x": 2800, "y": 15100, "w": 1000, "h": 3900
+        },
+        {
+          "type": "light_well",
+          "id": "rear_light_well",
+          "x": 200, "y": 23100, "w": 3600, "h": 1700
+        },
+        {
+          "type": "toilet",
+          "id": "gf_toilet",
+          "x": 2600, "y": 19200,
+          "tank_w": 380, "tank_h": 190,
+          "bowl_cx": 2790, "bowl_cy": 19700, "bowl_rx": 215, "bowl_ry": 275
+        },
+        {
+          "type": "sink",
+          "id": "gf_sink",
+          "x": 3100, "y": 22250, "w": 450, "h": 420
+        }
+      ],
+
+      "doors": [
+        {
+          "id": "garage_door",
+          "type": "garage_opening",
+          "x": 600, "y": 0, "width_mm": 2800,
+          "note": "Roller shutter or folding garage door"
+        },
+        {
+          "id": "door_commercial",
+          "type": "swing",
+          "leaf_x1": 200, "leaf_y1": 5000, "leaf_x2": 1000, "leaf_y2": 5000,
+          "arc_cx": 200, "arc_cy": 5000, "arc_r": 800,
+          "arc_start": 270, "arc_end": 360,
+          "note": "Entry from parking to commercial zone"
+        },
+        {
+          "id": "door_core_utility",
+          "type": "swing",
+          "leaf_x1": 1100, "leaf_y1": 19100, "leaf_x2": 1900, "leaf_y2": 19100,
+          "arc_cx": 1100, "arc_cy": 19100, "arc_r": 800,
+          "arc_start": 0, "arc_end": 90,
+          "note": "Door from core to utility zone"
+        },
+        {
+          "id": "door_rear",
+          "type": "swing",
+          "leaf_x1": 200, "leaf_y1": 23100, "leaf_x2": 1000, "leaf_y2": 23100,
+          "arc_cx": 200, "arc_cy": 23100, "arc_r": 800,
+          "arc_start": 0, "arc_end": 90,
+          "note": "Rear exit to light well"
+        }
+      ],
+
+      "labels": [
+        { "text": "PARKING",              "x": 2000, "y": 2300, "size": 180 },
+        { "text": "ENTRANCE",             "x": 2000, "y": 2600, "size": 140 },
+        { "text": "3.60\u00d74.80m=17.3m\u00b2", "x": 2000, "y": 2870, "size": 110 },
+        { "text": "COMMERCIAL",           "x": 2000, "y": 9300, "size": 180 },
+        { "text": "FOR RENT",             "x": 2000, "y": 9650, "size": 180 },
+        { "text": "3.60\u00d79.90m=35.6m\u00b2", "x": 2000, "y": 9960, "size": 110 },
+        { "text": "LIFT",                 "x":  600, "y": 17000, "size": 140 },
+        { "text": "UP",                   "x": 1950, "y": 18800, "size": 140 },
+        { "text": "STAIRCASE",            "x": 1900, "y": 18900, "size": 120 },
+        { "text": "LIGHT WELL",           "x": 3300, "y": 16800, "size": 140 },
+        { "text": "UTILITY",              "x": 1275, "y": 20700, "size": 180 },
+        { "text": "STAFF / STORAGE",      "x": 1275, "y": 21050, "size": 120 },
+        { "text": "2.15\u00d73.90m=8.4m\u00b2",  "x": 1275, "y": 21310, "size": 100 },
+        { "text": "BATHROOM",             "x": 3025, "y": 20750, "size": 180 },
+        { "text": "1.35\u00d73.90m=5.3m\u00b2",  "x": 3025, "y": 21060, "size": 100 },
+        { "text": "REAR LIGHT WELL",      "x": 2000, "y": 24020, "size": 140 },
+        { "text": "3.60\u00d71.70m",             "x": 2000, "y": 24290, "size": 100 },
+        { "text": "GARAGE OPENING 2800",  "x": 2000, "y":   160, "size": 100 }
+      ]
+    }
+  ]
+}

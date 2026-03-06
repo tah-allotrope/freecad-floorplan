@@ -1,0 +1,16 @@
+# Generated output (can be regenerated from spec + script)
+output/fcstd/
+output/dxf/
+output/svg/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+Thumbs.db
+.DS_Store
+
+# FreeCAD backup files
+*.FCStd1
+*.FCBak
