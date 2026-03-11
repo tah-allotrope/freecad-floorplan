@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "freecad": {
+      "type": "local",
+      "command": ["uvx", "freecad-mcp"],
+      "enabled": true
+    }
+  }
+}
