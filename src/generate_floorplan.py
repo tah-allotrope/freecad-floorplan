@@ -3,6 +3,7 @@
 generate_floorplan.py
 =====================
 Reads floorplan-spec.json and produces a 2D floor plan per floor in FreeCAD.
+It also generates a 3D model for the floor plan by extruding walls and drawing slabs.
 
 Outputs (per floor):
   output/fcstd/floorplan_F0.FCStd  — FreeCAD project file
@@ -47,6 +48,7 @@ OUT_SVG    = os.path.join(PROJECT_DIR, "output", "svg")
 try:
     import FreeCAD
     import Draft
+    import Part
     print("FreeCAD loaded OK")
 except ImportError:
     print("ERROR: FreeCAD modules not found.")
@@ -69,6 +71,17 @@ def make_rect(x, y, w, h, label, group, face=True):
     pts = [V(x, y), V(x + w, y), V(x + w, y + h), V(x, y + h)]
     obj = Draft.makeWire(pts, closed=True, face=face)
     obj.Label = label
+    group.addObject(obj)
+    return obj
+
+
+def make_box(x, y, z, w, h, height, label, group):
+    """3D Box (extrusion)."""
+    obj = doc.addObject("Part::Box", label)
+    obj.Length = w
+    obj.Width = h
+    obj.Height = height
+    obj.Placement = FreeCAD.Placement(V(x, y, z), FreeCAD.Rotation())
     group.addObject(obj)
     return obj
 
@@ -135,6 +148,7 @@ FILL_COLORS = {
 
 def draw_floor(spec, floor):
     """Draw a single floor and return the FreeCAD document."""
+    global doc # Needed for make_box
     level = floor["level"]
     doc_name = f"Tubehouse_F{level}"
     print(f"\n{'='*60}")
@@ -147,6 +161,9 @@ def draw_floor(spec, floor):
     doc = FreeCAD.newDocument(doc_name)
 
     # ── Layer groups (become DXF layers on export) ───────────────────────────
+    grp_2d      = doc.addObject("App::DocumentObjectGroup", "2D_PLAN")
+    grp_3d      = doc.addObject("App::DocumentObjectGroup", "3D_MODEL")
+    
     grp_walls   = doc.addObject("App::DocumentObjectGroup", "WALLS")
     grp_rooms   = doc.addObject("App::DocumentObjectGroup", "ROOMS")
     grp_stairs  = doc.addObject("App::DocumentObjectGroup", "STAIRS")
@@ -154,25 +171,47 @@ def draw_floor(spec, floor):
     grp_labels  = doc.addObject("App::DocumentObjectGroup", "LABELS")
     grp_dims    = doc.addObject("App::DocumentObjectGroup", "DIMENSIONS")
 
-    # ── 1. WALLS ─────────────────────────────────────────────────────────────
-    print("  Drawing walls...")
-    for wall in floor["walls"]:
-        obj = make_rect(wall["x"], wall["y"], wall["w"], wall["h"],
-                        wall["label"], grp_walls, face=True)
-        if obj.ViewObject:
-            obj.ViewObject.ShapeColor = (0.20, 0.25, 0.33)
+    grp_2d.addObject(grp_walls)
+    grp_2d.addObject(grp_rooms)
+    grp_2d.addObject(grp_stairs)
+    grp_2d.addObject(grp_symbols)
+    grp_2d.addObject(grp_labels)
+    grp_2d.addObject(grp_dims)
 
-    # ── 2. ROOM FILLS ────────────────────────────────────────────────────────
-    print("  Drawing room fills...")
-    for room in floor["rooms"]:
+    # ── 1. WALLS (2D & 3D) ───────────────────────────────────────────────────
+    print("  Drawing walls...")
+    ceiling_height = floor.get("floor_to_ceiling_mm", 3500)
+    for wall in floor.get("walls", []):
+        # 2D
+        obj_2d = make_rect(wall["x"], wall["y"], wall["w"], wall["h"],
+                           wall["label"] + "_2D", grp_walls, face=True)
+        if obj_2d.ViewObject:
+            obj_2d.ViewObject.ShapeColor = (0.20, 0.25, 0.33)
+            
+        # 3D
+        obj_3d = make_box(wall["x"], wall["y"], 0, wall["w"], wall["h"], ceiling_height,
+                          wall["label"] + "_3D", grp_3d)
+        if obj_3d.ViewObject:
+            obj_3d.ViewObject.ShapeColor = (0.90, 0.90, 0.90)
+
+    # ── 2. ROOM FILLS (2D) & SLAB (3D) ───────────────────────────────────────
+    print("  Drawing room fills and 3D slab...")
+    for room in floor.get("rooms", []):
         obj = make_rect(room["x"], room["y"], room["w"], room["h"],
                         room["name"], grp_rooms, face=True)
         color = FILL_COLORS.get(room["id"], (1, 1, 1))
         if obj.ViewObject:
             obj.ViewObject.ShapeColor = color
             obj.ViewObject.Transparency = 30
+            
+    # 3D Floor Slab
+    plot_w = spec["project"]["plot_width_mm"]
+    plot_d = spec["project"]["plot_depth_mm"]
+    slab = make_box(0, 0, -200, plot_w, plot_d, 200, "Floor_Slab_3D", grp_3d)
+    if slab.ViewObject:
+        slab.ViewObject.ShapeColor = (0.7, 0.7, 0.7)
 
-    # ── 3. STAIRS ────────────────────────────────────────────────────────────
+    # ── 3. STAIRS (2D & 3D) ──────────────────────────────────────────────────
     stair = next((e for e in floor.get("elements", []) if e["type"] == "stairs"), None)
     if stair:
         print("  Drawing staircase...")
@@ -180,13 +219,21 @@ def draw_floor(spec, floor):
         sw, sh = stair["w"], stair["h"]
         tread  = stair["tread_depth_mm"]
         n      = stair["num_treads"]
+        rise_per_step = ceiling_height / n
 
         for i in range(1, n + 1):
             ty = sy + i * tread
             if ty < sy + sh:
+                # 2D line
                 make_line(sx, ty, sx + sw, ty, f"stair_tread_{i:02d}", grp_stairs)
+                
+            # 3D step box
+            step_3d = make_box(sx, sy + (i-1)*tread, (i-1)*rise_per_step, sw, tread, rise_per_step,
+                               f"stair_step_3D_{i:02d}", grp_3d)
+            if step_3d.ViewObject:
+                step_3d.ViewObject.ShapeColor = (0.6, 0.6, 0.6)
 
-        # UP arrow
+        # UP arrow (2D)
         arrow_x = sx + sw / 2
         make_line(arrow_x, sy + sh - 150, arrow_x, sy + 300, "stair_arrow_shaft", grp_stairs)
         make_line(arrow_x, sy + 300, arrow_x - 120, sy + 600, "stair_arrow_L", grp_stairs)
@@ -210,21 +257,20 @@ def draw_floor(spec, floor):
                 obj.ViewObject.LineColor = (0.58, 0.77, 0.99)
 
     # ── 6. SANITARY FIXTURES ─────────────────────────────────────────────────
-    tc = next((e for e in floor.get("elements", []) if e["type"] == "toilet"), None)
-    if tc:
-        print("  Drawing sanitary fixtures...")
-        make_rect(tc["x"], tc["y"], tc["tank_w"], tc["tank_h"],
-                  "toilet_cistern", grp_symbols, face=False)
-        bx = tc["bowl_cx"] - tc["bowl_rx"]
-        by = tc["bowl_cy"] - tc["bowl_ry"]
-        make_rect(bx, by, tc["bowl_rx"] * 2, tc["bowl_ry"] * 2,
-                  "toilet_bowl", grp_symbols, face=False)
+    for e in floor.get("elements", []):
+        if e["type"] == "toilet":
+            print("  Drawing sanitary fixtures...")
+            make_rect(e["x"], e["y"], e["tank_w"], e["tank_h"],
+                      f"{e['id']}_cistern", grp_symbols, face=False)
+            bx = e["bowl_cx"] - e["bowl_rx"]
+            by = e["bowl_cy"] - e["bowl_ry"]
+            make_rect(bx, by, e["bowl_rx"] * 2, e["bowl_ry"] * 2,
+                      f"{e['id']}_bowl", grp_symbols, face=False)
 
-    sk = next((e for e in floor.get("elements", []) if e["type"] == "sink"), None)
-    if sk:
-        make_rect(sk["x"], sk["y"], sk["w"], sk["h"], "sink", grp_symbols, face=False)
-        make_circle(sk["x"] + sk["w"] / 2, sk["y"] + sk["h"] / 2,
-                    55, "sink_drain", grp_symbols)
+        elif e["type"] == "sink":
+            make_rect(e["x"], e["y"], e["w"], e["h"], f"{e['id']}", grp_symbols, face=False)
+            make_circle(e["x"] + e["w"] / 2, e["y"] + e["h"] / 2,
+                        55, f"{e['id']}_drain", grp_symbols)
 
     # ── 6b. WINDOWS ───────────────────────────────────────────────────────────
     for e in floor.get("elements", []):
@@ -278,9 +324,6 @@ def draw_floor(spec, floor):
     # ── 9. DIMENSION LINES ───────────────────────────────────────────────────
     print("  Adding dimensions...")
     DIM_OFFSET = 300
-
-    plot_w = spec["project"]["plot_width_mm"]
-    plot_d = spec["project"]["plot_depth_mm"]
 
     # Total width
     doc_w = Draft.makeDimension(V(0, -DIM_OFFSET), V(plot_w, -DIM_OFFSET),

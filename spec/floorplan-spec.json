@@ -1,5 +1,5 @@
 {
-  "_comment": "Floorplan spec — 4x25m Tubehouse. All dimensions in mm. Origin at front-left exterior corner. X = width (0=left, 4000=right), Y = depth (0=front/street, 25000=rear).",
+  "_comment": "Floorplan spec \u00e2\u20ac\u201d 4x25m Tubehouse. All dimensions in mm. Origin at front-left exterior corner. X = width (0=left, 4000=right), Y = depth (0=front/street, 25000=rear).",
   "project": {
     "name": "4x25m Tubehouse",
     "location": "Urban Narrow Lot",
@@ -20,87 +20,370 @@
       "name": "Ground Floor",
       "sheet": "A-101",
       "floor_to_ceiling_mm": 3500,
-
       "zones": [
-        { "id": "parking",    "name": "PARKING / ENTRANCE",   "y_start": 0,     "y_end": 5000,  "depth_mm": 5000  },
-        { "id": "commercial", "name": "COMMERCIAL / FOR RENT", "y_start": 5000,  "y_end": 15000, "depth_mm": 10000 },
-        { "id": "core",       "name": "CORE",                  "y_start": 15000, "y_end": 19000, "depth_mm": 4000  },
-        { "id": "utility",    "name": "UTILITY / BATHROOM",    "y_start": 19000, "y_end": 23000, "depth_mm": 4000  },
-        { "id": "rear_void",  "name": "REAR LIGHT WELL",       "y_start": 23000, "y_end": 25000, "depth_mm": 2000  }
+        {
+          "id": "parking",
+          "name": "PARKING",
+          "y_start": 0,
+          "y_end": 5000,
+          "depth_mm": 5000
+        },
+        {
+          "id": "reception",
+          "name": "RECEPTION / LOBBY",
+          "y_start": 5000,
+          "y_end": 9000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "office",
+          "name": "OFFICE",
+          "y_start": 9000,
+          "y_end": 13000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "storage",
+          "name": "STORAGE",
+          "y_start": 13000,
+          "y_end": 15000,
+          "depth_mm": 2000
+        },
+        {
+          "id": "core",
+          "name": "CORE",
+          "y_start": 15000,
+          "y_end": 19000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "staff",
+          "name": "STAFF AREA",
+          "y_start": 19000,
+          "y_end": 23000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "y_start": 23000,
+          "y_end": 25000,
+          "depth_mm": 2000
+        }
       ],
-
       "walls": [
-        { "id": "ext_left",          "x": 0,    "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Left Exterior Wall"   },
-        { "id": "ext_right",         "x": 3800, "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Right Exterior Wall"  },
-        { "id": "ext_rear",          "x": 0,    "y": 24800, "w": 4000, "h": 200,   "type": "exterior",  "label": "Rear Exterior Wall"   },
-        { "id": "front_left_pier",   "x": 0,    "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Left Pier"      },
-        { "id": "front_right_pier",  "x": 3400, "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Right Pier"     },
-        { "id": "part_park_comm",    "x": 200,  "y": 5000,  "w": 3600, "h": 100,   "type": "partition", "label": "Partition: Parking/Commercial" },
-        { "id": "part_comm_core",    "x": 200,  "y": 15000, "w": 3600, "h": 100,   "type": "partition", "label": "Partition: Commercial/Core"    },
-        { "id": "part_core_util_L",  "x": 200,  "y": 19000, "w": 900,  "h": 100,   "type": "partition", "label": "Partition: Core/Utility (left of door)" },
-        { "id": "part_core_util_R",  "x": 1900, "y": 19000, "w": 2900, "h": 100,   "type": "partition", "label": "Partition: Core/Utility (right of door)" },
-        { "id": "part_util_rear",    "x": 1000, "y": 23000, "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Utility/Rear Void" },
-        { "id": "core_lift_sep",     "x": 1000, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Lift/Stair Separator"   },
-        { "id": "core_stair_sep",    "x": 2700, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Stair/Void Separator"    },
-        { "id": "util_bath_wall",    "x": 2350, "y": 19100, "w": 100,  "h": 3900,  "type": "partition", "label": "Utility: Bathroom Wall"        }
+        {
+          "id": "ext_left",
+          "x": 0,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Left Exterior Wall"
+        },
+        {
+          "id": "ext_right",
+          "x": 3800,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Right Exterior Wall"
+        },
+        {
+          "id": "ext_rear",
+          "x": 0,
+          "y": 24800,
+          "w": 4000,
+          "h": 200,
+          "type": "exterior",
+          "label": "Rear Exterior Wall"
+        },
+        {
+          "id": "front_left_pier",
+          "x": 0,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Left Pier"
+        },
+        {
+          "id": "front_right_pier",
+          "x": 3400,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Right Pier"
+        },
+        {
+          "id": "part_park_recep_L",
+          "x": 200,
+          "y": 5000,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Parking/Reception"
+        },
+        {
+          "id": "part_park_recep_R",
+          "x": 2000,
+          "y": 5000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Parking/Reception"
+        },
+        {
+          "id": "part_recep_office_L",
+          "x": 200,
+          "y": 9000,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Reception/Office"
+        },
+        {
+          "id": "part_recep_office_R",
+          "x": 2000,
+          "y": 9000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Reception/Office"
+        },
+        {
+          "id": "part_office_stor_L",
+          "x": 200,
+          "y": 13000,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Office/Storage"
+        },
+        {
+          "id": "part_office_stor_R",
+          "x": 2000,
+          "y": 13000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Office/Storage"
+        },
+        {
+          "id": "part_stor_core_L",
+          "x": 200,
+          "y": 15000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Storage/Core L"
+        },
+        {
+          "id": "part_stor_core_R",
+          "x": 1900,
+          "y": 15000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Storage/Core R"
+        },
+        {
+          "id": "core_lift_sep",
+          "x": 1000,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Lift/Stair Separator"
+        },
+        {
+          "id": "core_stair_sep",
+          "x": 2700,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Stair/Void Separator"
+        },
+        {
+          "id": "part_core_staff_L",
+          "x": 200,
+          "y": 19000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Staff L"
+        },
+        {
+          "id": "part_core_staff_R",
+          "x": 1900,
+          "y": 19000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Staff R"
+        },
+        {
+          "id": "staff_vert_sep",
+          "x": 2350,
+          "y": 19100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Staff: Vert Sep"
+        },
+        {
+          "id": "staff_horiz_sep_L",
+          "x": 200,
+          "y": 21000,
+          "w": 2150,
+          "h": 100,
+          "type": "partition",
+          "label": "Staff: Horiz Sep L"
+        },
+        {
+          "id": "part_staff_rear",
+          "x": 1000,
+          "y": 23000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Staff/Rear"
+        }
       ],
-
       "rooms": [
         {
-          "id": "parking",    "name": "PARKING",
-          "x": 200, "y": 200, "w": 3600, "h": 4800,
-          "area_sqm": 17.28, "use": "parking",
+          "id": "parking",
+          "name": "PARKING",
+          "x": 200,
+          "y": 200,
+          "w": 3600,
+          "h": 4800,
+          "area_sqm": 17.28,
+          "use": "parking",
           "fill": "#e8ecf1"
         },
         {
-          "id": "commercial", "name": "COMMERCIAL — FOR RENT",
-          "x": 200, "y": 5100, "w": 3600, "h": 9900,
-          "area_sqm": 35.64, "use": "commercial",
-          "fill": "#ffffff"
+          "id": "working_room",
+          "name": "RECEPTION",
+          "x": 200,
+          "y": 5100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "commercial",
+          "fill": "#e8ecf8"
         },
         {
-          "id": "lift_shaft", "name": "LIFT SHAFT",
-          "x": 200, "y": 15100, "w": 800, "h": 3900,
-          "area_sqm": 3.12, "use": "circulation",
-          "fill": "#cbd5e1"
+          "id": "living_room",
+          "name": "OFFICE",
+          "x": 200,
+          "y": 9100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "commercial",
+          "fill": "#f0ffe0"
         },
         {
-          "id": "staircase",  "name": "STAIRCASE",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
-          "area_sqm": 6.24, "use": "circulation",
-          "fill": "#e9edf2"
-        },
-        {
-          "id": "core_void",  "name": "LIGHT WELL",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900,
-          "area_sqm": 3.90, "use": "void",
-          "fill": "#eff6ff"
-        },
-        {
-          "id": "utility",    "name": "UTILITY / STAFF",
-          "x": 200, "y": 19100, "w": 2150, "h": 3900,
-          "area_sqm": 8.39, "use": "utility",
+          "id": "utility",
+          "name": "STORAGE",
+          "x": 200,
+          "y": 13100,
+          "w": 3600,
+          "h": 1900,
+          "area_sqm": 6.84,
+          "use": "utility",
           "fill": "#fafafa"
         },
         {
-          "id": "bathroom",   "name": "BATHROOM",
-          "x": 2450, "y": 19100, "w": 1350, "h": 3900,
-          "area_sqm": 5.27, "use": "bathroom",
+          "id": "lift_shaft",
+          "name": "LIFT SHAFT",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "area_sqm": 3.12,
+          "use": "circulation",
+          "fill": "#cbd5e1"
+        },
+        {
+          "id": "staircase",
+          "name": "STAIRCASE",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "area_sqm": 6.24,
+          "use": "circulation",
+          "fill": "#e9edf2"
+        },
+        {
+          "id": "core_void",
+          "name": "LIGHT WELL",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900,
+          "area_sqm": 3.9,
+          "use": "void",
+          "fill": "#eff6ff"
+        },
+        {
+          "id": "kitchen",
+          "name": "BREAKROOM",
+          "x": 200,
+          "y": 19100,
+          "w": 2150,
+          "h": 1900,
+          "area_sqm": 4.08,
+          "use": "kitchen",
+          "fill": "#fff0e0"
+        },
+        {
+          "id": "utility",
+          "name": "MEP ROOM",
+          "x": 200,
+          "y": 21100,
+          "w": 2150,
+          "h": 1900,
+          "area_sqm": 4.08,
+          "use": "utility",
+          "fill": "#fafafa"
+        },
+        {
+          "id": "bathroom",
+          "name": "RESTROOM",
+          "x": 2450,
+          "y": 19100,
+          "w": 1350,
+          "h": 3900,
+          "area_sqm": 5.26,
+          "use": "bathroom",
           "fill": "#dbeafe"
         },
         {
-          "id": "rear_void",  "name": "REAR LIGHT WELL",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700,
-          "area_sqm": 6.12, "use": "void",
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700,
+          "area_sqm": 6.12,
+          "use": "void",
           "fill": "#eff6ff"
         }
       ],
-
       "elements": [
         {
           "type": "stairs",
           "id": "main_stair",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
           "direction": "up",
           "tread_depth_mm": 280,
           "num_treads": 13
@@ -108,84 +391,230 @@
         {
           "type": "lift",
           "id": "main_lift",
-          "x": 200, "y": 15100, "w": 800, "h": 3900
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "core_light_well",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "rear_light_well",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700
         },
         {
           "type": "toilet",
-          "id": "gf_toilet",
-          "x": 2600, "y": 19200,
-          "tank_w": 380, "tank_h": 190,
-          "bowl_cx": 2790, "bowl_cy": 19700, "bowl_rx": 215, "bowl_ry": 275
+          "id": "f0_toilet",
+          "x": 2600,
+          "y": 19200,
+          "tank_w": 380,
+          "tank_h": 190,
+          "bowl_cx": 2790,
+          "bowl_cy": 19700,
+          "bowl_rx": 215,
+          "bowl_ry": 275
         },
         {
           "type": "sink",
-          "id": "gf_sink",
-          "x": 3100, "y": 22250, "w": 450, "h": 420
+          "id": "f0_sink",
+          "x": 3000,
+          "y": 22250,
+          "w": 450,
+          "h": 420
+        },
+        {
+          "type": "sink",
+          "id": "f0_break_sink",
+          "x": 300,
+          "y": 19200,
+          "w": 450,
+          "h": 420
         }
       ],
-
       "doors": [
         {
           "id": "garage_door",
           "type": "garage_opening",
-          "x": 600, "y": 0, "width_mm": 2800,
-          "note": "Roller shutter or folding garage door"
+          "x": 600,
+          "y": 0,
+          "width_mm": 2800
         },
         {
-          "id": "door_commercial",
+          "id": "door_park_recep",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 5000, "leaf_x2": 1000, "leaf_y2": 5000,
-          "arc_cx": 200, "arc_cy": 5000, "arc_r": 800,
-          "arc_start": 270, "arc_end": 360,
-          "note": "Entry from parking to commercial zone"
+          "leaf_x1": 1200,
+          "leaf_y1": 5000,
+          "leaf_x2": 2000,
+          "leaf_y2": 5000,
+          "arc_cx": 1200,
+          "arc_cy": 5000,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
         },
         {
-          "id": "door_core_utility",
+          "id": "door_recep_office",
           "type": "swing",
-          "leaf_x1": 1100, "leaf_y1": 19100, "leaf_x2": 1900, "leaf_y2": 19100,
-          "arc_cx": 1100, "arc_cy": 19100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
-          "note": "Door from core to utility zone"
+          "leaf_x1": 1200,
+          "leaf_y1": 9000,
+          "leaf_x2": 2000,
+          "leaf_y2": 9000,
+          "arc_cx": 1200,
+          "arc_cy": 9000,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_office_stor",
+          "type": "swing",
+          "leaf_x1": 1200,
+          "leaf_y1": 13000,
+          "leaf_x2": 2000,
+          "leaf_y2": 13000,
+          "arc_cx": 1200,
+          "arc_cy": 13000,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_stor_core",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 15000,
+          "leaf_x2": 1900,
+          "leaf_y2": 15000,
+          "arc_cx": 1900,
+          "arc_cy": 15000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270
+        },
+        {
+          "id": "door_core_staff",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 19100,
+          "leaf_x2": 1900,
+          "leaf_y2": 19100,
+          "arc_cx": 1100,
+          "arc_cy": 19100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_break_mep",
+          "type": "swing",
+          "leaf_x1": 1500,
+          "leaf_y1": 21000,
+          "leaf_x2": 2300,
+          "leaf_y2": 21000,
+          "arc_cx": 2300,
+          "arc_cy": 21000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270
+        },
+        {
+          "id": "door_staff_bath",
+          "type": "swing",
+          "leaf_x1": 2450,
+          "leaf_y1": 19200,
+          "leaf_x2": 2450,
+          "leaf_y2": 20000,
+          "arc_cx": 2450,
+          "arc_cy": 19200,
+          "arc_r": 800,
+          "arc_start": 270,
+          "arc_end": 360
         },
         {
           "id": "door_rear",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 23100, "leaf_x2": 1000, "leaf_y2": 23100,
-          "arc_cx": 200, "arc_cy": 23100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
-          "note": "Rear exit to light well"
+          "leaf_x1": 200,
+          "leaf_y1": 23100,
+          "leaf_x2": 1000,
+          "leaf_y2": 23100,
+          "arc_cx": 200,
+          "arc_cy": 23100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
         }
       ],
-
       "labels": [
-        { "text": "PARKING",              "x": 2000, "y": 2300, "size": 180 },
-        { "text": "ENTRANCE",             "x": 2000, "y": 2600, "size": 140 },
-        { "text": "3.60\u00d74.80m=17.3m\u00b2", "x": 2000, "y": 2870, "size": 110 },
-        { "text": "COMMERCIAL",           "x": 2000, "y": 9300, "size": 180 },
-        { "text": "FOR RENT",             "x": 2000, "y": 9650, "size": 180 },
-        { "text": "3.60\u00d79.90m=35.6m\u00b2", "x": 2000, "y": 9960, "size": 110 },
-        { "text": "LIFT",                 "x":  600, "y": 17000, "size": 140 },
-        { "text": "UP",                   "x": 1950, "y": 18800, "size": 140 },
-        { "text": "STAIRCASE",            "x": 1900, "y": 18900, "size": 120 },
-        { "text": "LIGHT WELL",           "x": 3300, "y": 16800, "size": 140 },
-        { "text": "UTILITY",              "x": 1275, "y": 20700, "size": 180 },
-        { "text": "STAFF / STORAGE",      "x": 1275, "y": 21050, "size": 120 },
-        { "text": "2.15\u00d73.90m=8.4m\u00b2",  "x": 1275, "y": 21310, "size": 100 },
-        { "text": "BATHROOM",             "x": 3025, "y": 20750, "size": 180 },
-        { "text": "1.35\u00d73.90m=5.3m\u00b2",  "x": 3025, "y": 21060, "size": 100 },
-        { "text": "REAR LIGHT WELL",      "x": 2000, "y": 24020, "size": 140 },
-        { "text": "3.60\u00d71.70m",             "x": 2000, "y": 24290, "size": 100 },
-        { "text": "GARAGE OPENING 2800",  "x": 2000, "y":   160, "size": 100 }
+        {
+          "text": "PARKING",
+          "x": 2000,
+          "y": 2300,
+          "size": 180
+        },
+        {
+          "text": "RECEPTION",
+          "x": 2000,
+          "y": 7000,
+          "size": 180
+        },
+        {
+          "text": "OFFICE",
+          "x": 2000,
+          "y": 11000,
+          "size": 180
+        },
+        {
+          "text": "STORAGE",
+          "x": 2000,
+          "y": 14000,
+          "size": 140
+        },
+        {
+          "text": "LIFT",
+          "x": 600,
+          "y": 17000,
+          "size": 140
+        },
+        {
+          "text": "STAIRCASE",
+          "x": 1900,
+          "y": 18900,
+          "size": 120
+        },
+        {
+          "text": "BREAKROOM",
+          "x": 1275,
+          "y": 20000,
+          "size": 140
+        },
+        {
+          "text": "MEP ROOM",
+          "x": 1275,
+          "y": 22000,
+          "size": 140
+        },
+        {
+          "text": "RESTROOM",
+          "x": 3125,
+          "y": 21000,
+          "size": 140
+        },
+        {
+          "text": "REAR LIGHT WELL",
+          "x": 2000,
+          "y": 24020,
+          "size": 140
+        }
       ]
     },
     {
@@ -193,89 +622,399 @@
       "name": "First Floor",
       "sheet": "A-102",
       "floor_to_ceiling_mm": 3500,
-
       "zones": [
-        { "id": "balcony",    "name": "BALCONY",              "y_start": 0,     "y_end": 2000,  "depth_mm": 2000  },
-        { "id": "living",     "name": "LIVING ROOM",          "y_start": 2000,  "y_end": 15000, "depth_mm": 13000 },
-        { "id": "core",       "name": "CORE",                 "y_start": 15000, "y_end": 19000, "depth_mm": 4000  },
-        { "id": "kitchen",    "name": "KITCHEN + BATHROOM",   "y_start": 19000, "y_end": 23000, "depth_mm": 4000  },
-        { "id": "rear_void",  "name": "REAR LIGHT WELL",      "y_start": 23000, "y_end": 25000, "depth_mm": 2000  }
+        {
+          "id": "balcony",
+          "name": "BALCONY",
+          "y_start": 0,
+          "y_end": 2000,
+          "depth_mm": 2000
+        },
+        {
+          "id": "living",
+          "name": "LIVING ROOM",
+          "y_start": 2000,
+          "y_end": 7000,
+          "depth_mm": 5000
+        },
+        {
+          "id": "dining",
+          "name": "DINING ROOM",
+          "y_start": 7000,
+          "y_end": 11000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "library",
+          "name": "LIBRARY",
+          "y_start": 11000,
+          "y_end": 15000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "core",
+          "name": "CORE",
+          "y_start": 15000,
+          "y_end": 19000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "kitchen",
+          "name": "KITCHEN & POWDER",
+          "y_start": 19000,
+          "y_end": 23000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "y_start": 23000,
+          "y_end": 25000,
+          "depth_mm": 2000
+        }
       ],
-
       "walls": [
-        { "id": "ext_left",          "x": 0,    "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Left Exterior Wall"   },
-        { "id": "ext_right",         "x": 3800, "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Right Exterior Wall"  },
-        { "id": "ext_rear",          "x": 0,    "y": 24800, "w": 4000, "h": 200,   "type": "exterior",  "label": "Rear Exterior Wall"   },
-        { "id": "front_seg1",        "x": 0,    "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Wall Segment 1" },
-        { "id": "front_seg2",        "x": 1400, "y": 0,     "w": 1200, "h": 200,   "type": "exterior",  "label": "Front Wall Segment 2" },
-        { "id": "front_seg3",        "x": 3400, "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Wall Segment 3" },
-        { "id": "part_balc_liv_L",   "x": 200,  "y": 2000,  "w": 500,  "h": 100,   "type": "partition", "label": "Partition: Balcony/Living (left of door)" },
-        { "id": "part_balc_liv_R",   "x": 2700, "y": 2000,  "w": 1100, "h": 100,   "type": "partition", "label": "Partition: Balcony/Living (right of door)" },
-        { "id": "part_liv_core",     "x": 200,  "y": 15000, "w": 3600, "h": 100,   "type": "partition", "label": "Partition: Living/Core" },
-        { "id": "part_core_kit_L",   "x": 200,  "y": 19000, "w": 900,  "h": 100,   "type": "partition", "label": "Partition: Core/Kitchen (left of door)" },
-        { "id": "part_core_kit_R",   "x": 1900, "y": 19000, "w": 1900, "h": 100,   "type": "partition", "label": "Partition: Core/Kitchen (right of door)" },
-        { "id": "part_kit_rear",     "x": 1000, "y": 23000, "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Kitchen/Rear Void" },
-        { "id": "core_lift_sep",     "x": 1000, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Lift/Stair Separator"   },
-        { "id": "core_stair_sep",    "x": 2700, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Stair/Void Separator"    },
-        { "id": "kit_bath_wall",     "x": 2350, "y": 19100, "w": 100,  "h": 3900,  "type": "partition", "label": "Kitchen: Bathroom Wall"        }
+        {
+          "id": "ext_left",
+          "x": 0,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Left Exterior Wall"
+        },
+        {
+          "id": "ext_right",
+          "x": 3800,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Right Exterior Wall"
+        },
+        {
+          "id": "ext_rear",
+          "x": 0,
+          "y": 24800,
+          "w": 4000,
+          "h": 200,
+          "type": "exterior",
+          "label": "Rear Exterior Wall"
+        },
+        {
+          "id": "front_seg1",
+          "x": 0,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 1"
+        },
+        {
+          "id": "front_seg2",
+          "x": 1400,
+          "y": 0,
+          "w": 1200,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 2"
+        },
+        {
+          "id": "front_seg3",
+          "x": 3400,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 3"
+        },
+        {
+          "id": "part_balc_liv_L",
+          "x": 200,
+          "y": 2000,
+          "w": 500,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Living"
+        },
+        {
+          "id": "part_balc_liv_R",
+          "x": 2700,
+          "y": 2000,
+          "w": 1100,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Living"
+        },
+        {
+          "id": "part_liv_din_L",
+          "x": 200,
+          "y": 7000,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Living/Dining"
+        },
+        {
+          "id": "part_liv_din_R",
+          "x": 2000,
+          "y": 7000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Living/Dining"
+        },
+        {
+          "id": "part_din_lib_L",
+          "x": 200,
+          "y": 11000,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Dining/Library"
+        },
+        {
+          "id": "part_din_lib_R",
+          "x": 2000,
+          "y": 11000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Dining/Library"
+        },
+        {
+          "id": "part_lib_core_L",
+          "x": 200,
+          "y": 15000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Library/Core L"
+        },
+        {
+          "id": "part_lib_core_R",
+          "x": 1900,
+          "y": 15000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Library/Core R"
+        },
+        {
+          "id": "core_lift_sep",
+          "x": 1000,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Lift/Stair Separator"
+        },
+        {
+          "id": "core_stair_sep",
+          "x": 2700,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Stair/Void Separator"
+        },
+        {
+          "id": "part_core_kit_L",
+          "x": 200,
+          "y": 19000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Kitchen L"
+        },
+        {
+          "id": "part_core_kit_R",
+          "x": 1900,
+          "y": 19000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Kitchen R"
+        },
+        {
+          "id": "kit_vert_sep",
+          "x": 2350,
+          "y": 19100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Kitchen: Vert Sep"
+        },
+        {
+          "id": "kit_horiz_sep_L",
+          "x": 200,
+          "y": 21000,
+          "w": 2150,
+          "h": 100,
+          "type": "partition",
+          "label": "Kitchen: Horiz Sep L"
+        },
+        {
+          "id": "kit_horiz_sep_R",
+          "x": 2450,
+          "y": 21000,
+          "w": 1350,
+          "h": 100,
+          "type": "partition",
+          "label": "Kitchen: Horiz Sep R"
+        },
+        {
+          "id": "part_kit_rear",
+          "x": 1000,
+          "y": 23000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Kitchen/Rear Void"
+        }
       ],
-
       "rooms": [
         {
-          "id": "balcony",     "name": "BALCONY",
-          "x": 200, "y": 200, "w": 3600, "h": 1800,
-          "area_sqm": 6.48, "use": "balcony",
+          "id": "balcony",
+          "name": "BALCONY",
+          "x": 200,
+          "y": 200,
+          "w": 3600,
+          "h": 1800,
+          "area_sqm": 6.48,
+          "use": "balcony",
           "fill": "#e0f0e0"
         },
         {
-          "id": "living_room", "name": "LIVING ROOM",
-          "x": 200, "y": 2100, "w": 3600, "h": 12800,
-          "area_sqm": 46.08, "use": "living",
+          "id": "living_room",
+          "name": "LIVING ROOM",
+          "x": 200,
+          "y": 2100,
+          "w": 3600,
+          "h": 4900,
+          "area_sqm": 17.64,
+          "use": "living",
           "fill": "#f0ffe0"
         },
         {
-          "id": "lift_shaft",  "name": "LIFT SHAFT",
-          "x": 200, "y": 15100, "w": 800, "h": 3900,
-          "area_sqm": 3.12, "use": "circulation",
+          "id": "living_room",
+          "name": "DINING ROOM",
+          "x": 200,
+          "y": 7100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "living",
+          "fill": "#f0ffe0"
+        },
+        {
+          "id": "working_room",
+          "name": "LIBRARY",
+          "x": 200,
+          "y": 11100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "working",
+          "fill": "#e8ecf8"
+        },
+        {
+          "id": "lift_shaft",
+          "name": "LIFT SHAFT",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "area_sqm": 3.12,
+          "use": "circulation",
           "fill": "#cbd5e1"
         },
         {
-          "id": "staircase",   "name": "STAIRCASE",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
-          "area_sqm": 6.24, "use": "circulation",
+          "id": "staircase",
+          "name": "STAIRCASE",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "area_sqm": 6.24,
+          "use": "circulation",
           "fill": "#e9edf2"
         },
         {
-          "id": "core_void",   "name": "LIGHT WELL",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900,
-          "area_sqm": 3.90, "use": "void",
+          "id": "core_void",
+          "name": "LIGHT WELL",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900,
+          "area_sqm": 3.9,
+          "use": "void",
           "fill": "#eff6ff"
         },
         {
-          "id": "kitchen",     "name": "KITCHEN",
-          "x": 200, "y": 19100, "w": 2150, "h": 3900,
-          "area_sqm": 8.39, "use": "kitchen",
+          "id": "kitchen",
+          "name": "DRY KITCHEN",
+          "x": 200,
+          "y": 19100,
+          "w": 2150,
+          "h": 1900,
+          "area_sqm": 4.08,
+          "use": "kitchen",
           "fill": "#fff0e0"
         },
         {
-          "id": "bathroom",    "name": "BATHROOM",
-          "x": 2450, "y": 19100, "w": 1350, "h": 3900,
-          "area_sqm": 5.27, "use": "bathroom",
+          "id": "kitchen",
+          "name": "WET KITCHEN",
+          "x": 200,
+          "y": 21100,
+          "w": 2150,
+          "h": 1900,
+          "area_sqm": 4.08,
+          "use": "kitchen",
+          "fill": "#fff0e0"
+        },
+        {
+          "id": "bathroom",
+          "name": "POWDER ROOM",
+          "x": 2450,
+          "y": 19100,
+          "w": 1350,
+          "h": 1900,
+          "area_sqm": 2.56,
+          "use": "bathroom",
           "fill": "#dbeafe"
         },
         {
-          "id": "rear_void",   "name": "REAR LIGHT WELL",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700,
-          "area_sqm": 6.12, "use": "void",
+          "id": "utility",
+          "name": "PANTRY",
+          "x": 2450,
+          "y": 21100,
+          "w": 1350,
+          "h": 1900,
+          "area_sqm": 2.56,
+          "use": "utility",
+          "fill": "#fafafa"
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700,
+          "area_sqm": 6.12,
+          "use": "void",
           "fill": "#eff6ff"
         }
       ],
-
       "elements": [
         {
           "type": "stairs",
           "id": "main_stair",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
           "direction": "up",
           "tread_depth_mm": 280,
           "num_treads": 13
@@ -283,91 +1022,261 @@
         {
           "type": "lift",
           "id": "main_lift",
-          "x": 200, "y": 15100, "w": 800, "h": 3900
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "core_light_well",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "rear_light_well",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700
-        },
-        {
-          "type": "toilet",
-          "id": "f1_toilet",
-          "x": 2600, "y": 19200,
-          "tank_w": 380, "tank_h": 190,
-          "bowl_cx": 2790, "bowl_cy": 19700, "bowl_rx": 215, "bowl_ry": 275
-        },
-        {
-          "type": "sink",
-          "id": "f1_kitchen_sink",
-          "x": 300, "y": 22250, "w": 450, "h": 420
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700
         },
         {
           "type": "window",
           "id": "front_window_L",
-          "x": 600, "y": 0, "width_mm": 800,
-          "wall_thickness_mm": 200,
-          "note": "Front wall left window"
+          "x": 600,
+          "y": 0,
+          "width_mm": 800,
+          "wall_thickness_mm": 200
         },
         {
           "type": "window",
           "id": "front_window_R",
-          "x": 2600, "y": 0, "width_mm": 800,
-          "wall_thickness_mm": 200,
-          "note": "Front wall right window"
+          "x": 2600,
+          "y": 0,
+          "width_mm": 800,
+          "wall_thickness_mm": 200
+        },
+        {
+          "type": "toilet",
+          "id": "f1_powder_toilet",
+          "x": 2600,
+          "y": 19200,
+          "tank_w": 380,
+          "tank_h": 190,
+          "bowl_cx": 2790,
+          "bowl_cy": 19700,
+          "bowl_rx": 215,
+          "bowl_ry": 275
+        },
+        {
+          "type": "sink",
+          "id": "f1_powder_sink",
+          "x": 3200,
+          "y": 19200,
+          "w": 450,
+          "h": 420
+        },
+        {
+          "type": "sink",
+          "id": "f1_dry_kitchen_sink",
+          "x": 300,
+          "y": 19200,
+          "w": 450,
+          "h": 420
+        },
+        {
+          "type": "sink",
+          "id": "f1_wet_kitchen_sink",
+          "x": 300,
+          "y": 22250,
+          "w": 450,
+          "h": 420
         }
       ],
-
       "doors": [
         {
           "id": "door_balcony_sliding",
           "type": "sliding",
-          "x": 700, "y": 2000, "width_mm": 2000,
-          "wall_thickness_mm": 100,
-          "note": "Sliding door from balcony to living room"
+          "x": 700,
+          "y": 2000,
+          "width_mm": 2000,
+          "wall_thickness_mm": 100
         },
         {
-          "id": "door_core_kitchen",
+          "id": "door_liv_din",
           "type": "swing",
-          "leaf_x1": 1100, "leaf_y1": 19100, "leaf_x2": 1900, "leaf_y2": 19100,
-          "arc_cx": 1100, "arc_cy": 19100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
-          "note": "Door from core to kitchen zone"
+          "leaf_x1": 1200,
+          "leaf_y1": 7000,
+          "leaf_x2": 2000,
+          "leaf_y2": 7000,
+          "arc_cx": 1200,
+          "arc_cy": 7000,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_din_lib",
+          "type": "swing",
+          "leaf_x1": 1200,
+          "leaf_y1": 11000,
+          "leaf_x2": 2000,
+          "leaf_y2": 11000,
+          "arc_cx": 1200,
+          "arc_cy": 11000,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_lib_core",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 15000,
+          "leaf_x2": 1900,
+          "leaf_y2": 15000,
+          "arc_cx": 1900,
+          "arc_cy": 15000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270
+        },
+        {
+          "id": "door_core_kit",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 19100,
+          "leaf_x2": 1900,
+          "leaf_y2": 19100,
+          "arc_cx": 1100,
+          "arc_cy": 19100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_dry_wet",
+          "type": "swing",
+          "leaf_x1": 1500,
+          "leaf_y1": 21000,
+          "leaf_x2": 2300,
+          "leaf_y2": 21000,
+          "arc_cx": 2300,
+          "arc_cy": 21000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270
+        },
+        {
+          "id": "door_pwd",
+          "type": "swing",
+          "leaf_x1": 2450,
+          "leaf_y1": 19200,
+          "leaf_x2": 2450,
+          "leaf_y2": 20000,
+          "arc_cx": 2450,
+          "arc_cy": 19200,
+          "arc_r": 800,
+          "arc_start": 270,
+          "arc_end": 360
+        },
+        {
+          "id": "door_pantry",
+          "type": "swing",
+          "leaf_x1": 2450,
+          "leaf_y1": 21200,
+          "leaf_x2": 2450,
+          "leaf_y2": 22000,
+          "arc_cx": 2450,
+          "arc_cy": 21200,
+          "arc_r": 800,
+          "arc_start": 270,
+          "arc_end": 360
         },
         {
           "id": "door_rear",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 23100, "leaf_x2": 1000, "leaf_y2": 23100,
-          "arc_cx": 200, "arc_cy": 23100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
-          "note": "Rear exit to light well"
+          "leaf_x1": 200,
+          "leaf_y1": 23100,
+          "leaf_x2": 1000,
+          "leaf_y2": 23100,
+          "arc_cx": 200,
+          "arc_cy": 23100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
         }
       ],
-
       "labels": [
-        { "text": "BALCONY",                "x": 2000, "y": 1100, "size": 180 },
-        { "text": "3.60\u00d71.80m=6.5m\u00b2",   "x": 2000, "y": 1400, "size": 100 },
-        { "text": "LIVING ROOM",            "x": 2000, "y": 7800, "size": 220 },
-        { "text": "OPEN PLAN",              "x": 2000, "y": 8150, "size": 140 },
-        { "text": "3.60\u00d712.80m=46.1m\u00b2",  "x": 2000, "y": 8450, "size": 110 },
-        { "text": "LIFT",                   "x":  600, "y": 17000, "size": 140 },
-        { "text": "UP",                     "x": 1950, "y": 18800, "size": 140 },
-        { "text": "STAIRCASE",              "x": 1900, "y": 18900, "size": 120 },
-        { "text": "LIGHT WELL",             "x": 3300, "y": 16800, "size": 140 },
-        { "text": "KITCHEN",                "x": 1275, "y": 20700, "size": 180 },
-        { "text": "2.15\u00d73.90m=8.4m\u00b2",    "x": 1275, "y": 21020, "size": 100 },
-        { "text": "BATHROOM",               "x": 3025, "y": 20750, "size": 180 },
-        { "text": "1.35\u00d73.90m=5.3m\u00b2",    "x": 3025, "y": 21060, "size": 100 },
-        { "text": "REAR LIGHT WELL",        "x": 2000, "y": 24020, "size": 140 },
-        { "text": "3.60\u00d71.70m",               "x": 2000, "y": 24290, "size": 100 },
-        { "text": "SLIDING DOOR 2000",      "x": 1700, "y": 1900, "size": 100 },
-        { "text": "WIN 800",                "x": 1000, "y":  350, "size": 100 },
-        { "text": "WIN 800",                "x": 3000, "y":  350, "size": 100 }
+        {
+          "text": "BALCONY",
+          "x": 2000,
+          "y": 1100,
+          "size": 180
+        },
+        {
+          "text": "LIVING ROOM",
+          "x": 2000,
+          "y": 4500,
+          "size": 180
+        },
+        {
+          "text": "DINING ROOM",
+          "x": 2000,
+          "y": 9000,
+          "size": 180
+        },
+        {
+          "text": "LIBRARY",
+          "x": 2000,
+          "y": 13000,
+          "size": 180
+        },
+        {
+          "text": "LIFT",
+          "x": 600,
+          "y": 17000,
+          "size": 140
+        },
+        {
+          "text": "STAIRCASE",
+          "x": 1900,
+          "y": 18900,
+          "size": 120
+        },
+        {
+          "text": "DRY KITCHEN",
+          "x": 1275,
+          "y": 20000,
+          "size": 140
+        },
+        {
+          "text": "WET KITCHEN",
+          "x": 1275,
+          "y": 22000,
+          "size": 140
+        },
+        {
+          "text": "POWDER ROOM",
+          "x": 3125,
+          "y": 20000,
+          "size": 120
+        },
+        {
+          "text": "PANTRY",
+          "x": 3125,
+          "y": 22000,
+          "size": 120
+        },
+        {
+          "text": "REAR LIGHT WELL",
+          "x": 2000,
+          "y": 24020,
+          "size": 140
+        }
       ]
     },
     {
@@ -375,115 +1284,379 @@
       "name": "Second Floor",
       "sheet": "A-103",
       "floor_to_ceiling_mm": 3500,
-
       "zones": [
-        { "id": "balcony",      "name": "BALCONY",              "y_start": 0,     "y_end": 2000,  "depth_mm": 2000  },
-        { "id": "working",      "name": "WORKING ROOM",         "y_start": 2000,  "y_end": 6000,  "depth_mm": 4000  },
-        { "id": "master",       "name": "MASTER BEDROOM",       "y_start": 6000,  "y_end": 11000, "depth_mm": 5000  },
-        { "id": "bedroom2",     "name": "BEDROOM 2",            "y_start": 11000, "y_end": 15000, "depth_mm": 4000  },
-        { "id": "core",         "name": "CORE",                 "y_start": 15000, "y_end": 19000, "depth_mm": 4000  },
-        { "id": "bathroom",     "name": "BATHROOM + LAUNDRY",   "y_start": 19000, "y_end": 23000, "depth_mm": 4000  },
-        { "id": "rear_void",    "name": "REAR LIGHT WELL",      "y_start": 23000, "y_end": 25000, "depth_mm": 2000  }
+        {
+          "id": "balcony",
+          "name": "BALCONY",
+          "y_start": 0,
+          "y_end": 2000,
+          "depth_mm": 2000
+        },
+        {
+          "id": "working",
+          "name": "WORKING ROOM",
+          "y_start": 2000,
+          "y_end": 6000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "master",
+          "name": "MASTER BEDROOM",
+          "y_start": 6000,
+          "y_end": 11000,
+          "depth_mm": 5000
+        },
+        {
+          "id": "bedroom2",
+          "name": "BEDROOM 2",
+          "y_start": 11000,
+          "y_end": 15000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "core",
+          "name": "CORE",
+          "y_start": 15000,
+          "y_end": 19000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "bathroom",
+          "name": "BATHROOM + LAUNDRY",
+          "y_start": 19000,
+          "y_end": 23000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "y_start": 23000,
+          "y_end": 25000,
+          "depth_mm": 2000
+        }
       ],
-
       "walls": [
-        { "id": "ext_left",           "x": 0,    "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Left Exterior Wall"   },
-        { "id": "ext_right",          "x": 3800, "y": 0,     "w": 200,  "h": 25000, "type": "exterior",  "label": "Right Exterior Wall"  },
-        { "id": "ext_rear",           "x": 0,    "y": 24800, "w": 4000, "h": 200,   "type": "exterior",  "label": "Rear Exterior Wall"   },
-        { "id": "front_seg1",         "x": 0,    "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Wall Segment 1" },
-        { "id": "front_seg2",         "x": 1400, "y": 0,     "w": 1200, "h": 200,   "type": "exterior",  "label": "Front Wall Segment 2" },
-        { "id": "front_seg3",         "x": 3400, "y": 0,     "w": 600,  "h": 200,   "type": "exterior",  "label": "Front Wall Segment 3" },
-        { "id": "part_balc_work_L",   "x": 200,  "y": 2000,  "w": 500,  "h": 100,   "type": "partition", "label": "Partition: Balcony/Working (left of door)" },
-        { "id": "part_balc_work_R",   "x": 2700, "y": 2000,  "w": 1100, "h": 100,   "type": "partition", "label": "Partition: Balcony/Working (right of door)" },
-        { "id": "part_work_master",   "x": 1000, "y": 6000,  "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Working/Master (right of door)" },
-        { "id": "part_master_bed2",   "x": 1000, "y": 11000, "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Master/Bedroom2 (right of door)" },
-        { "id": "part_bed2_core_L",   "x": 200,  "y": 15000, "w": 900,  "h": 100,   "type": "partition", "label": "Partition: Bedroom2/Core (left of door)" },
-        { "id": "part_bed2_core_R",   "x": 1900, "y": 15000, "w": 1900, "h": 100,   "type": "partition", "label": "Partition: Bedroom2/Core (right of door)" },
-        { "id": "part_core_bath_L",   "x": 200,  "y": 19000, "w": 900,  "h": 100,   "type": "partition", "label": "Partition: Core/Bathroom (left of door)" },
-        { "id": "part_core_bath_R",   "x": 1900, "y": 19000, "w": 1900, "h": 100,   "type": "partition", "label": "Partition: Core/Bathroom (right of door)" },
-        { "id": "part_bath_rear",     "x": 1000, "y": 23000, "w": 2800, "h": 100,   "type": "partition", "label": "Partition: Bathroom/Rear Void" },
-        { "id": "core_lift_sep",      "x": 1000, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Lift/Stair Separator" },
-        { "id": "core_stair_sep",     "x": 2700, "y": 15100, "w": 100,  "h": 3900,  "type": "partition", "label": "Core: Stair/Void Separator" },
-        { "id": "bath_laundry_wall",  "x": 2350, "y": 19100, "w": 100,  "h": 3900,  "type": "partition", "label": "Bathroom/Laundry Wall" },
-        { "id": "ensuite_wall_upper", "x": 2350, "y": 6100,  "w": 100,  "h": 500,   "type": "partition", "label": "En-suite Wall (above door)" },
-        { "id": "ensuite_wall_lower", "x": 2350, "y": 7400,  "w": 100,  "h": 1200,  "type": "partition", "label": "En-suite Wall (below door)" },
-        { "id": "ensuite_wall_bottom","x": 2350, "y": 8600,  "w": 1450, "h": 100,   "type": "partition", "label": "En-suite Wall (bottom)" }
+        {
+          "id": "ext_left",
+          "x": 0,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Left Exterior Wall"
+        },
+        {
+          "id": "ext_right",
+          "x": 3800,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Right Exterior Wall"
+        },
+        {
+          "id": "ext_rear",
+          "x": 0,
+          "y": 24800,
+          "w": 4000,
+          "h": 200,
+          "type": "exterior",
+          "label": "Rear Exterior Wall"
+        },
+        {
+          "id": "front_seg1",
+          "x": 0,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 1"
+        },
+        {
+          "id": "front_seg2",
+          "x": 1400,
+          "y": 0,
+          "w": 1200,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 2"
+        },
+        {
+          "id": "front_seg3",
+          "x": 3400,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 3"
+        },
+        {
+          "id": "part_balc_work_L",
+          "x": 200,
+          "y": 2000,
+          "w": 500,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Working (left of door)"
+        },
+        {
+          "id": "part_balc_work_R",
+          "x": 2700,
+          "y": 2000,
+          "w": 1100,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Working (right of door)"
+        },
+        {
+          "id": "part_work_master",
+          "x": 1000,
+          "y": 6000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Working/Master (right of door)"
+        },
+        {
+          "id": "part_master_bed2",
+          "x": 1000,
+          "y": 11000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Master/Bedroom2 (right of door)"
+        },
+        {
+          "id": "part_bed2_core_L",
+          "x": 200,
+          "y": 15000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Bedroom2/Core (left of door)"
+        },
+        {
+          "id": "part_bed2_core_R",
+          "x": 1900,
+          "y": 15000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Bedroom2/Core (right of door)"
+        },
+        {
+          "id": "part_core_bath_L",
+          "x": 200,
+          "y": 19000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Bathroom (left of door)"
+        },
+        {
+          "id": "part_core_bath_R",
+          "x": 1900,
+          "y": 19000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Bathroom (right of door)"
+        },
+        {
+          "id": "part_bath_rear",
+          "x": 1000,
+          "y": 23000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Bathroom/Rear Void"
+        },
+        {
+          "id": "core_lift_sep",
+          "x": 1000,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Lift/Stair Separator"
+        },
+        {
+          "id": "core_stair_sep",
+          "x": 2700,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Stair/Void Separator"
+        },
+        {
+          "id": "bath_laundry_wall",
+          "x": 2350,
+          "y": 19100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Bathroom/Laundry Wall"
+        },
+        {
+          "id": "ensuite_wall_upper",
+          "x": 2350,
+          "y": 6100,
+          "w": 100,
+          "h": 500,
+          "type": "partition",
+          "label": "En-suite Wall (above door)"
+        },
+        {
+          "id": "ensuite_wall_lower",
+          "x": 2350,
+          "y": 7400,
+          "w": 100,
+          "h": 1200,
+          "type": "partition",
+          "label": "En-suite Wall (below door)"
+        },
+        {
+          "id": "ensuite_wall_bottom",
+          "x": 2350,
+          "y": 8600,
+          "w": 1450,
+          "h": 100,
+          "type": "partition",
+          "label": "En-suite Wall (bottom)"
+        }
       ],
-
       "rooms": [
         {
-          "id": "balcony",         "name": "BALCONY",
-          "x": 200, "y": 200, "w": 3600, "h": 1800,
-          "area_sqm": 6.48, "use": "balcony",
+          "id": "balcony",
+          "name": "BALCONY",
+          "x": 200,
+          "y": 200,
+          "w": 3600,
+          "h": 1800,
+          "area_sqm": 6.48,
+          "use": "balcony",
           "fill": "#e0f0e0"
         },
         {
-          "id": "working_room",    "name": "WORKING ROOM",
-          "x": 200, "y": 2100, "w": 3600, "h": 3900,
-          "area_sqm": 14.04, "use": "working",
+          "id": "working_room",
+          "name": "WORKING ROOM",
+          "x": 200,
+          "y": 2100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "working",
           "fill": "#e8ecf8"
         },
         {
-          "id": "master_bedroom",  "name": "MASTER BEDROOM",
-          "x": 200, "y": 6100, "w": 3600, "h": 4900,
-          "area_sqm": 13.80, "use": "bedroom",
+          "id": "master_bedroom",
+          "name": "MASTER BEDROOM",
+          "x": 200,
+          "y": 6100,
+          "w": 3600,
+          "h": 4900,
+          "area_sqm": 13.8,
+          "use": "bedroom",
           "fill": "#fff0e0"
         },
         {
-          "id": "ensuite",         "name": "EN-SUITE",
-          "x": 2450, "y": 6100, "w": 1350, "h": 2500,
-          "area_sqm": 3.38, "use": "bathroom",
+          "id": "ensuite",
+          "name": "EN-SUITE",
+          "x": 2450,
+          "y": 6100,
+          "w": 1350,
+          "h": 2500,
+          "area_sqm": 3.38,
+          "use": "bathroom",
           "fill": "#dbeafe"
         },
         {
-          "id": "bedroom_2",       "name": "BEDROOM 2",
-          "x": 200, "y": 11100, "w": 3600, "h": 3900,
-          "area_sqm": 14.04, "use": "bedroom",
+          "id": "bedroom_2",
+          "name": "BEDROOM 2",
+          "x": 200,
+          "y": 11100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "bedroom",
           "fill": "#ffe8d0"
         },
         {
-          "id": "lift_shaft",      "name": "LIFT SHAFT",
-          "x": 200, "y": 15100, "w": 800, "h": 3900,
-          "area_sqm": 3.12, "use": "circulation",
+          "id": "lift_shaft",
+          "name": "LIFT SHAFT",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "area_sqm": 3.12,
+          "use": "circulation",
           "fill": "#cbd5e1"
         },
         {
-          "id": "staircase",       "name": "STAIRCASE",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
-          "area_sqm": 6.24, "use": "circulation",
+          "id": "staircase",
+          "name": "STAIRCASE",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "area_sqm": 6.24,
+          "use": "circulation",
           "fill": "#e9edf2"
         },
         {
-          "id": "core_void",       "name": "LIGHT WELL",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900,
-          "area_sqm": 3.90, "use": "void",
+          "id": "core_void",
+          "name": "LIGHT WELL",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900,
+          "area_sqm": 3.9,
+          "use": "void",
           "fill": "#eff6ff"
         },
         {
-          "id": "bathroom",        "name": "SHARED BATHROOM",
-          "x": 200, "y": 19100, "w": 2150, "h": 3900,
-          "area_sqm": 8.39, "use": "bathroom",
+          "id": "bathroom",
+          "name": "SHARED BATHROOM",
+          "x": 200,
+          "y": 19100,
+          "w": 2150,
+          "h": 3900,
+          "area_sqm": 8.39,
+          "use": "bathroom",
           "fill": "#dbeafe"
         },
         {
-          "id": "laundry",         "name": "LAUNDRY",
-          "x": 2450, "y": 19100, "w": 1350, "h": 3900,
-          "area_sqm": 5.27, "use": "utility",
+          "id": "laundry",
+          "name": "LAUNDRY",
+          "x": 2450,
+          "y": 19100,
+          "w": 1350,
+          "h": 3900,
+          "area_sqm": 5.27,
+          "use": "utility",
           "fill": "#fafafa"
         },
         {
-          "id": "rear_void",       "name": "REAR LIGHT WELL",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700,
-          "area_sqm": 6.12, "use": "void",
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700,
+          "area_sqm": 6.12,
+          "use": "void",
           "fill": "#eff6ff"
         }
       ],
-
       "elements": [
         {
           "type": "stairs",
           "id": "main_stair",
-          "x": 1100, "y": 15100, "w": 1600, "h": 3900,
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
           "direction": "up",
           "tread_depth_mm": 280,
           "num_treads": 13
@@ -491,136 +1664,318 @@
         {
           "type": "lift",
           "id": "main_lift",
-          "x": 200, "y": 15100, "w": 800, "h": 3900
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "core_light_well",
-          "x": 2800, "y": 15100, "w": 1000, "h": 3900
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900
         },
         {
           "type": "light_well",
           "id": "rear_light_well",
-          "x": 200, "y": 23100, "w": 3600, "h": 1700
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700
         },
         {
           "type": "toilet",
           "id": "f2_ensuite_toilet",
-          "x": 2600, "y": 6200,
-          "tank_w": 380, "tank_h": 190,
-          "bowl_cx": 2790, "bowl_cy": 6700, "bowl_rx": 215, "bowl_ry": 275
+          "x": 2600,
+          "y": 6200,
+          "tank_w": 380,
+          "tank_h": 190,
+          "bowl_cx": 2790,
+          "bowl_cy": 6700,
+          "bowl_rx": 215,
+          "bowl_ry": 275
         },
         {
           "type": "toilet",
           "id": "f2_shared_toilet",
-          "x": 300, "y": 19200,
-          "tank_w": 380, "tank_h": 190,
-          "bowl_cx": 490, "bowl_cy": 19700, "bowl_rx": 215, "bowl_ry": 275
+          "x": 300,
+          "y": 19200,
+          "tank_w": 380,
+          "tank_h": 190,
+          "bowl_cx": 490,
+          "bowl_cy": 19700,
+          "bowl_rx": 215,
+          "bowl_ry": 275
         },
         {
           "type": "sink",
           "id": "f2_shared_sink",
-          "x": 1400, "y": 22250, "w": 450, "h": 420
+          "x": 1400,
+          "y": 22250,
+          "w": 450,
+          "h": 420
         },
         {
           "type": "window",
           "id": "front_window_L",
-          "x": 600, "y": 0, "width_mm": 800,
+          "x": 600,
+          "y": 0,
+          "width_mm": 800,
           "wall_thickness_mm": 200,
           "note": "Front wall left window"
         },
         {
           "type": "window",
           "id": "front_window_R",
-          "x": 2600, "y": 0, "width_mm": 800,
+          "x": 2600,
+          "y": 0,
+          "width_mm": 800,
           "wall_thickness_mm": 200,
           "note": "Front wall right window"
         }
       ],
-
       "doors": [
         {
           "id": "door_balcony_sliding",
           "type": "sliding",
-          "x": 700, "y": 2000, "width_mm": 2000,
+          "x": 700,
+          "y": 2000,
+          "width_mm": 2000,
           "wall_thickness_mm": 100,
           "note": "Sliding door from balcony to working room"
         },
         {
           "id": "door_work_master",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 6100, "leaf_x2": 1000, "leaf_y2": 6100,
-          "arc_cx": 200, "arc_cy": 6100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
+          "leaf_x1": 200,
+          "leaf_y1": 6100,
+          "leaf_x2": 1000,
+          "leaf_y2": 6100,
+          "arc_cx": 200,
+          "arc_cy": 6100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90,
           "note": "Door from working room to master bedroom"
         },
         {
           "id": "door_master_bed2",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 11100, "leaf_x2": 1000, "leaf_y2": 11100,
-          "arc_cx": 200, "arc_cy": 11100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
+          "leaf_x1": 200,
+          "leaf_y1": 11100,
+          "leaf_x2": 1000,
+          "leaf_y2": 11100,
+          "arc_cx": 200,
+          "arc_cy": 11100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90,
           "note": "Door from master to bedroom 2"
         },
         {
           "id": "door_ensuite",
           "type": "swing",
-          "leaf_x1": 2450, "leaf_y1": 6600, "leaf_x2": 2450, "leaf_y2": 7400,
-          "arc_cx": 2450, "arc_cy": 6600, "arc_r": 800,
-          "arc_start": 270, "arc_end": 360,
+          "leaf_x1": 2450,
+          "leaf_y1": 6600,
+          "leaf_x2": 2450,
+          "leaf_y2": 7400,
+          "arc_cx": 2450,
+          "arc_cy": 6600,
+          "arc_r": 800,
+          "arc_start": 270,
+          "arc_end": 360,
           "note": "En-suite door (opens into en-suite)"
         },
         {
           "id": "door_bed2_core",
           "type": "swing",
-          "leaf_x1": 1100, "leaf_y1": 15000, "leaf_x2": 1900, "leaf_y2": 15000,
-          "arc_cx": 1900, "arc_cy": 15000, "arc_r": 800,
-          "arc_start": 180, "arc_end": 270,
+          "leaf_x1": 1100,
+          "leaf_y1": 15000,
+          "leaf_x2": 1900,
+          "leaf_y2": 15000,
+          "arc_cx": 1900,
+          "arc_cy": 15000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270,
           "note": "Door from bedroom 2 to core"
         },
         {
           "id": "door_core_bathroom",
           "type": "swing",
-          "leaf_x1": 1100, "leaf_y1": 19100, "leaf_x2": 1900, "leaf_y2": 19100,
-          "arc_cx": 1100, "arc_cy": 19100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
+          "leaf_x1": 1100,
+          "leaf_y1": 19100,
+          "leaf_x2": 1900,
+          "leaf_y2": 19100,
+          "arc_cx": 1100,
+          "arc_cy": 19100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90,
           "note": "Door from core to shared bathroom"
         },
         {
           "id": "door_rear",
           "type": "swing",
-          "leaf_x1": 200, "leaf_y1": 23100, "leaf_x2": 1000, "leaf_y2": 23100,
-          "arc_cx": 200, "arc_cy": 23100, "arc_r": 800,
-          "arc_start": 0, "arc_end": 90,
+          "leaf_x1": 200,
+          "leaf_y1": 23100,
+          "leaf_x2": 1000,
+          "leaf_y2": 23100,
+          "arc_cx": 200,
+          "arc_cy": 23100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90,
           "note": "Rear exit to light well"
         }
       ],
-
       "labels": [
-        { "text": "BALCONY",                 "x": 2000, "y": 1100, "size": 180 },
-        { "text": "3.60\u00d71.80m=6.5m\u00b2",    "x": 2000, "y": 1400, "size": 100 },
-        { "text": "WORKING ROOM",            "x": 2000, "y": 3900, "size": 200 },
-        { "text": "STUDY",                   "x": 2000, "y": 4200, "size": 140 },
-        { "text": "3.60\u00d73.90m=14.0m\u00b2",   "x": 2000, "y": 4500, "size": 100 },
-        { "text": "MASTER BEDROOM",          "x": 1200, "y": 8200, "size": 180 },
-        { "text": "~13.8m\u00b2",                  "x": 1200, "y": 8500, "size": 100 },
-        { "text": "EN-SUITE",                "x": 3125, "y": 7200, "size": 140 },
-        { "text": "3.4m\u00b2",                    "x": 3125, "y": 7500, "size": 100 },
-        { "text": "BEDROOM 2",               "x": 2000, "y": 12800, "size": 200 },
-        { "text": "3.60\u00d73.90m=14.0m\u00b2",   "x": 2000, "y": 13100, "size": 100 },
-        { "text": "LIFT",                    "x":  600, "y": 17000, "size": 140 },
-        { "text": "UP",                      "x": 1950, "y": 18800, "size": 140 },
-        { "text": "STAIRCASE",               "x": 1900, "y": 18900, "size": 120 },
-        { "text": "LIGHT WELL",              "x": 3300, "y": 16800, "size": 140 },
-        { "text": "BATHROOM",                "x": 1275, "y": 20750, "size": 180 },
-        { "text": "2.15\u00d73.90m=8.4m\u00b2",    "x": 1275, "y": 21060, "size": 100 },
-        { "text": "LAUNDRY",                 "x": 3025, "y": 20750, "size": 160 },
-        { "text": "1.35\u00d73.90m=5.3m\u00b2",    "x": 3025, "y": 21060, "size": 100 },
-        { "text": "REAR LIGHT WELL",         "x": 2000, "y": 24020, "size": 140 },
-        { "text": "3.60\u00d71.70m",                "x": 2000, "y": 24290, "size": 100 },
-        { "text": "SLIDING DOOR 2000",       "x": 1700, "y": 1900, "size": 100 },
-        { "text": "WIN 800",                 "x": 1000, "y":  350, "size": 100 },
-        { "text": "WIN 800",                 "x": 3000, "y":  350, "size": 100 }
+        {
+          "text": "BALCONY",
+          "x": 2000,
+          "y": 1100,
+          "size": 180
+        },
+        {
+          "text": "3.60\u00d71.80m=6.5m\u00b2",
+          "x": 2000,
+          "y": 1400,
+          "size": 100
+        },
+        {
+          "text": "WORKING ROOM",
+          "x": 2000,
+          "y": 3900,
+          "size": 200
+        },
+        {
+          "text": "STUDY",
+          "x": 2000,
+          "y": 4200,
+          "size": 140
+        },
+        {
+          "text": "3.60\u00d73.90m=14.0m\u00b2",
+          "x": 2000,
+          "y": 4500,
+          "size": 100
+        },
+        {
+          "text": "MASTER BEDROOM",
+          "x": 1200,
+          "y": 8200,
+          "size": 180
+        },
+        {
+          "text": "~13.8m\u00b2",
+          "x": 1200,
+          "y": 8500,
+          "size": 100
+        },
+        {
+          "text": "EN-SUITE",
+          "x": 3125,
+          "y": 7200,
+          "size": 140
+        },
+        {
+          "text": "3.4m\u00b2",
+          "x": 3125,
+          "y": 7500,
+          "size": 100
+        },
+        {
+          "text": "BEDROOM 2",
+          "x": 2000,
+          "y": 12800,
+          "size": 200
+        },
+        {
+          "text": "3.60\u00d73.90m=14.0m\u00b2",
+          "x": 2000,
+          "y": 13100,
+          "size": 100
+        },
+        {
+          "text": "LIFT",
+          "x": 600,
+          "y": 17000,
+          "size": 140
+        },
+        {
+          "text": "UP",
+          "x": 1950,
+          "y": 18800,
+          "size": 140
+        },
+        {
+          "text": "STAIRCASE",
+          "x": 1900,
+          "y": 18900,
+          "size": 120
+        },
+        {
+          "text": "LIGHT WELL",
+          "x": 3300,
+          "y": 16800,
+          "size": 140
+        },
+        {
+          "text": "BATHROOM",
+          "x": 1275,
+          "y": 20750,
+          "size": 180
+        },
+        {
+          "text": "2.15\u00d73.90m=8.4m\u00b2",
+          "x": 1275,
+          "y": 21060,
+          "size": 100
+        },
+        {
+          "text": "LAUNDRY",
+          "x": 3025,
+          "y": 20750,
+          "size": 160
+        },
+        {
+          "text": "1.35\u00d73.90m=5.3m\u00b2",
+          "x": 3025,
+          "y": 21060,
+          "size": 100
+        },
+        {
+          "text": "REAR LIGHT WELL",
+          "x": 2000,
+          "y": 24020,
+          "size": 140
+        },
+        {
+          "text": "3.60\u00d71.70m",
+          "x": 2000,
+          "y": 24290,
+          "size": 100
+        },
+        {
+          "text": "SLIDING DOOR 2000",
+          "x": 1700,
+          "y": 1900,
+          "size": 100
+        },
+        {
+          "text": "WIN 800",
+          "x": 1000,
+          "y": 350,
+          "size": 100
+        },
+        {
+          "text": "WIN 800",
+          "x": 3000,
+          "y": 350,
+          "size": 100
+        }
       ]
     }
   ]
