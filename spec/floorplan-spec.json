@@ -1977,6 +1977,1132 @@
           "size": 100
         }
       ]
+    },
+    {
+      "level": 3,
+      "name": "Third Floor",
+      "sheet": "A-104",
+      "floor_to_ceiling_mm": 3200,
+      "zones": [
+        {
+          "id": "balcony",
+          "name": "FRONT BALCONY (CANTILEVERED)",
+          "y_start": 0,
+          "y_end": 1200,
+          "depth_mm": 1200
+        },
+        {
+          "id": "home_office",
+          "name": "HOME OFFICE",
+          "y_start": 1200,
+          "y_end": 6200,
+          "depth_mm": 5000
+        },
+        {
+          "id": "flex_guest",
+          "name": "FLEX / GUEST BEDROOM",
+          "y_start": 6200,
+          "y_end": 11200,
+          "depth_mm": 5000
+        },
+        {
+          "id": "master",
+          "name": "MASTER SUITE",
+          "y_start": 11200,
+          "y_end": 15000,
+          "depth_mm": 3800
+        },
+        {
+          "id": "core",
+          "name": "CORE",
+          "y_start": 15000,
+          "y_end": 19000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "ensuite",
+          "name": "MASTER EN-SUITE",
+          "y_start": 19000,
+          "y_end": 23000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "y_start": 23000,
+          "y_end": 25000,
+          "depth_mm": 2000
+        }
+      ],
+      "walls": [
+        {
+          "id": "ext_left",
+          "x": 0,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Left Exterior Wall"
+        },
+        {
+          "id": "ext_right",
+          "x": 3800,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Right Exterior Wall"
+        },
+        {
+          "id": "ext_rear",
+          "x": 0,
+          "y": 24800,
+          "w": 4000,
+          "h": 200,
+          "type": "exterior",
+          "label": "Rear Exterior Wall"
+        },
+        {
+          "id": "front_seg1",
+          "x": 0,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 1"
+        },
+        {
+          "id": "front_seg2",
+          "x": 1400,
+          "y": 0,
+          "w": 1200,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 2"
+        },
+        {
+          "id": "front_seg3",
+          "x": 3400,
+          "y": 0,
+          "w": 600,
+          "h": 200,
+          "type": "exterior",
+          "label": "Front Wall Segment 3"
+        },
+        {
+          "id": "part_balc_office_L",
+          "x": 200,
+          "y": 1200,
+          "w": 500,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Office L"
+        },
+        {
+          "id": "part_balc_office_R",
+          "x": 2700,
+          "y": 1200,
+          "w": 1100,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Balcony/Office R"
+        },
+        {
+          "id": "part_office_guest_L",
+          "x": 200,
+          "y": 6200,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Office/Guest L"
+        },
+        {
+          "id": "part_office_guest_R",
+          "x": 2000,
+          "y": 6200,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Office/Guest R"
+        },
+        {
+          "id": "part_guest_master_L",
+          "x": 200,
+          "y": 11200,
+          "w": 1000,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Guest/Master L"
+        },
+        {
+          "id": "part_guest_master_R",
+          "x": 2000,
+          "y": 11200,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Guest/Master R"
+        },
+        {
+          "id": "part_master_core_L",
+          "x": 200,
+          "y": 15000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Master/Core L"
+        },
+        {
+          "id": "part_master_core_R",
+          "x": 1900,
+          "y": 15000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Master/Core R"
+        },
+        {
+          "id": "core_lift_sep",
+          "x": 1000,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Lift/Stair Separator"
+        },
+        {
+          "id": "core_stair_sep",
+          "x": 2700,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Stair/Void Separator"
+        },
+        {
+          "id": "part_core_ensuite_L",
+          "x": 200,
+          "y": 19000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/En-suite Zone L"
+        },
+        {
+          "id": "part_core_ensuite_R",
+          "x": 1900,
+          "y": 19000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/En-suite Zone R"
+        },
+        {
+          "id": "ensuite_sep_wall",
+          "x": 2350,
+          "y": 19100,
+          "w": 100,
+          "h": 2500,
+          "type": "partition",
+          "label": "En-suite Separator Wall"
+        },
+        {
+          "id": "ensuite_bottom_wall",
+          "x": 2350,
+          "y": 21600,
+          "w": 1450,
+          "h": 100,
+          "type": "partition",
+          "label": "En-suite Bottom Wall"
+        },
+        {
+          "id": "part_ensuite_rear",
+          "x": 1000,
+          "y": 23000,
+          "w": 2800,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: En-suite Zone/Rear Void"
+        }
+      ],
+      "rooms": [
+        {
+          "id": "balcony",
+          "name": "FRONT BALCONY",
+          "x": 200,
+          "y": 200,
+          "w": 3600,
+          "h": 1000,
+          "area_sqm": 3.60,
+          "use": "balcony",
+          "fill": "#e0f0e0",
+          "note": "Cantilevered — 4.0×1.0m"
+        },
+        {
+          "id": "working_room",
+          "name": "HOME OFFICE",
+          "x": 200,
+          "y": 1300,
+          "w": 3600,
+          "h": 4900,
+          "area_sqm": 17.64,
+          "use": "working",
+          "fill": "#e8ecf8"
+        },
+        {
+          "id": "bedroom",
+          "name": "FLEX / GUEST BEDROOM",
+          "x": 200,
+          "y": 6300,
+          "w": 3600,
+          "h": 4900,
+          "area_sqm": 17.64,
+          "use": "bedroom",
+          "fill": "#fff0e0"
+        },
+        {
+          "id": "master_bedroom",
+          "name": "MASTER BEDROOM",
+          "x": 200,
+          "y": 11300,
+          "w": 3600,
+          "h": 3700,
+          "area_sqm": 13.32,
+          "use": "bedroom",
+          "fill": "#fff0e0"
+        },
+        {
+          "id": "lift_shaft",
+          "name": "LIFT SHAFT",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "area_sqm": 3.12,
+          "use": "circulation",
+          "fill": "#cbd5e1"
+        },
+        {
+          "id": "staircase",
+          "name": "STAIRCASE",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "area_sqm": 6.24,
+          "use": "circulation",
+          "fill": "#e9edf2"
+        },
+        {
+          "id": "core_void",
+          "name": "LIGHT WELL",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900,
+          "area_sqm": 3.9,
+          "use": "void",
+          "fill": "#eff6ff"
+        },
+        {
+          "id": "master_bedroom",
+          "name": "MASTER DRESSING / SUITE",
+          "x": 200,
+          "y": 19100,
+          "w": 2150,
+          "h": 3900,
+          "area_sqm": 8.39,
+          "use": "bedroom",
+          "fill": "#fff0e0"
+        },
+        {
+          "id": "ensuite",
+          "name": "EN-SUITE BATHROOM",
+          "x": 2450,
+          "y": 19100,
+          "w": 1350,
+          "h": 2500,
+          "area_sqm": 3.38,
+          "use": "bathroom",
+          "fill": "#dbeafe"
+        },
+        {
+          "id": "rear_void",
+          "name": "REAR LIGHT WELL",
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700,
+          "area_sqm": 6.12,
+          "use": "void",
+          "fill": "#eff6ff"
+        }
+      ],
+      "elements": [
+        {
+          "type": "stairs",
+          "id": "main_stair",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "direction": "up",
+          "tread_depth_mm": 280,
+          "num_treads": 13
+        },
+        {
+          "type": "lift",
+          "id": "main_lift",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900
+        },
+        {
+          "type": "light_well",
+          "id": "core_light_well",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900
+        },
+        {
+          "type": "light_well",
+          "id": "rear_light_well",
+          "x": 200,
+          "y": 23100,
+          "w": 3600,
+          "h": 1700
+        },
+        {
+          "type": "window",
+          "id": "front_window_L",
+          "x": 600,
+          "y": 0,
+          "width_mm": 800,
+          "wall_thickness_mm": 200
+        },
+        {
+          "type": "window",
+          "id": "front_window_R",
+          "x": 2600,
+          "y": 0,
+          "width_mm": 800,
+          "wall_thickness_mm": 200
+        },
+        {
+          "type": "toilet",
+          "id": "f3_ensuite_toilet",
+          "x": 2600,
+          "y": 19200,
+          "tank_w": 380,
+          "tank_h": 190,
+          "bowl_cx": 2790,
+          "bowl_cy": 19700,
+          "bowl_rx": 215,
+          "bowl_ry": 275
+        },
+        {
+          "type": "sink",
+          "id": "f3_ensuite_sink",
+          "x": 3200,
+          "y": 19200,
+          "w": 450,
+          "h": 420
+        }
+      ],
+      "doors": [
+        {
+          "id": "door_balcony_sliding",
+          "type": "sliding",
+          "x": 700,
+          "y": 1200,
+          "width_mm": 2000,
+          "wall_thickness_mm": 100,
+          "note": "Sliding door from balcony to home office"
+        },
+        {
+          "id": "door_office_guest",
+          "type": "swing",
+          "leaf_x1": 1200,
+          "leaf_y1": 6200,
+          "leaf_x2": 2000,
+          "leaf_y2": 6200,
+          "arc_cx": 1200,
+          "arc_cy": 6200,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_guest_master",
+          "type": "swing",
+          "leaf_x1": 1200,
+          "leaf_y1": 11200,
+          "leaf_x2": 2000,
+          "leaf_y2": 11200,
+          "arc_cx": 1200,
+          "arc_cy": 11200,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_master_core",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 15000,
+          "leaf_x2": 1900,
+          "leaf_y2": 15000,
+          "arc_cx": 1900,
+          "arc_cy": 15000,
+          "arc_r": 800,
+          "arc_start": 180,
+          "arc_end": 270
+        },
+        {
+          "id": "door_core_ensuite_zone",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 19100,
+          "leaf_x2": 1900,
+          "leaf_y2": 19100,
+          "arc_cx": 1100,
+          "arc_cy": 19100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        },
+        {
+          "id": "door_ensuite",
+          "type": "swing",
+          "leaf_x1": 2450,
+          "leaf_y1": 19600,
+          "leaf_x2": 2450,
+          "leaf_y2": 20400,
+          "arc_cx": 2450,
+          "arc_cy": 19600,
+          "arc_r": 800,
+          "arc_start": 270,
+          "arc_end": 360,
+          "note": "En-suite door (opens into en-suite)"
+        },
+        {
+          "id": "door_rear",
+          "type": "swing",
+          "leaf_x1": 200,
+          "leaf_y1": 23100,
+          "leaf_x2": 1000,
+          "leaf_y2": 23100,
+          "arc_cx": 200,
+          "arc_cy": 23100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90
+        }
+      ],
+      "labels": [
+        {
+          "text": "BALCONY",
+          "x": 2000,
+          "y": 700,
+          "size": 180
+        },
+        {
+          "text": "4.0\u00d71.0m CANTILEVERED",
+          "x": 2000,
+          "y": 950,
+          "size": 100
+        },
+        {
+          "text": "HOME OFFICE",
+          "x": 2000,
+          "y": 3400,
+          "size": 200
+        },
+        {
+          "text": "3.60\u00d74.90m=17.6m\u00b2",
+          "x": 2000,
+          "y": 3700,
+          "size": 100
+        },
+        {
+          "text": "FLEX / GUEST BEDROOM",
+          "x": 2000,
+          "y": 8400,
+          "size": 180
+        },
+        {
+          "text": "3.60\u00d74.90m=17.6m\u00b2",
+          "x": 2000,
+          "y": 8700,
+          "size": 100
+        },
+        {
+          "text": "MASTER BEDROOM",
+          "x": 2000,
+          "y": 12500,
+          "size": 180
+        },
+        {
+          "text": "3.60\u00d73.70m=13.3m\u00b2",
+          "x": 2000,
+          "y": 12800,
+          "size": 100
+        },
+        {
+          "text": "LIFT",
+          "x": 600,
+          "y": 17000,
+          "size": 140
+        },
+        {
+          "text": "UP",
+          "x": 1950,
+          "y": 18800,
+          "size": 140
+        },
+        {
+          "text": "STAIRCASE",
+          "x": 1900,
+          "y": 18900,
+          "size": 120
+        },
+        {
+          "text": "LIGHT WELL",
+          "x": 3300,
+          "y": 16800,
+          "size": 140
+        },
+        {
+          "text": "DRESSING / SUITE",
+          "x": 1275,
+          "y": 20750,
+          "size": 160
+        },
+        {
+          "text": "2.15\u00d73.90m=8.4m\u00b2",
+          "x": 1275,
+          "y": 21060,
+          "size": 100
+        },
+        {
+          "text": "EN-SUITE",
+          "x": 3125,
+          "y": 20100,
+          "size": 140
+        },
+        {
+          "text": "~3.4m\u00b2",
+          "x": 3125,
+          "y": 20400,
+          "size": 100
+        },
+        {
+          "text": "REAR LIGHT WELL",
+          "x": 2000,
+          "y": 24020,
+          "size": 140
+        },
+        {
+          "text": "3.60\u00d71.70m",
+          "x": 2000,
+          "y": 24290,
+          "size": 100
+        },
+        {
+          "text": "SLIDING DOOR 2000",
+          "x": 1700,
+          "y": 1100,
+          "size": 100
+        },
+        {
+          "text": "WIN 800",
+          "x": 1000,
+          "y": 350,
+          "size": 100
+        },
+        {
+          "text": "WIN 800",
+          "x": 3000,
+          "y": 350,
+          "size": 100
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Rooftop",
+      "sheet": "A-105",
+      "floor_to_ceiling_mm": 3200,
+      "zones": [
+        {
+          "id": "sky_lounge",
+          "name": "PENTHOUSE SKY LOUNGE",
+          "y_start": 0,
+          "y_end": 6000,
+          "depth_mm": 6000
+        },
+        {
+          "id": "terrace_open",
+          "name": "OPEN TERRACE (FRONT)",
+          "y_start": 6000,
+          "y_end": 10000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "pergola",
+          "name": "PERGOLA / SHADE STRUCTURE",
+          "y_start": 10000,
+          "y_end": 15000,
+          "depth_mm": 5000
+        },
+        {
+          "id": "core",
+          "name": "STAIR ACCESS CORE",
+          "y_start": 15000,
+          "y_end": 19000,
+          "depth_mm": 4000
+        },
+        {
+          "id": "garden",
+          "name": "ROOFTOP GARDEN",
+          "y_start": 19000,
+          "y_end": 22000,
+          "depth_mm": 3000
+        },
+        {
+          "id": "solar",
+          "name": "SOLAR PANEL ZONE",
+          "y_start": 22000,
+          "y_end": 25000,
+          "depth_mm": 3000
+        }
+      ],
+      "walls": [
+        {
+          "id": "ext_left",
+          "x": 0,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Left Parapet Wall"
+        },
+        {
+          "id": "ext_right",
+          "x": 3800,
+          "y": 0,
+          "w": 200,
+          "h": 25000,
+          "type": "exterior",
+          "label": "Right Parapet Wall"
+        },
+        {
+          "id": "ext_rear",
+          "x": 0,
+          "y": 24800,
+          "w": 4000,
+          "h": 200,
+          "type": "exterior",
+          "label": "Rear Parapet Wall"
+        },
+        {
+          "id": "sky_front_pier_L",
+          "x": 0,
+          "y": 0,
+          "w": 400,
+          "h": 200,
+          "type": "exterior",
+          "label": "Sky Lounge Front Left Pier"
+        },
+        {
+          "id": "sky_front_pier_R",
+          "x": 3600,
+          "y": 0,
+          "w": 400,
+          "h": 200,
+          "type": "exterior",
+          "label": "Sky Lounge Front Right Pier"
+        },
+        {
+          "id": "sky_rear_L",
+          "x": 200,
+          "y": 6000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Sky Lounge Rear Wall L"
+        },
+        {
+          "id": "sky_rear_R",
+          "x": 2000,
+          "y": 6000,
+          "w": 1800,
+          "h": 100,
+          "type": "partition",
+          "label": "Sky Lounge Rear Wall R"
+        },
+        {
+          "id": "part_terr_pergola",
+          "x": 200,
+          "y": 10000,
+          "w": 3600,
+          "h": 100,
+          "type": "partition",
+          "label": "Terrace/Pergola Zone Boundary"
+        },
+        {
+          "id": "part_pergola_core_L",
+          "x": 200,
+          "y": 15000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Pergola/Core L"
+        },
+        {
+          "id": "part_pergola_core_R",
+          "x": 1900,
+          "y": 15000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Pergola/Core R"
+        },
+        {
+          "id": "core_lift_sep",
+          "x": 1000,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Lift Machine/Stair Separator"
+        },
+        {
+          "id": "core_stair_sep",
+          "x": 2700,
+          "y": 15100,
+          "w": 100,
+          "h": 3900,
+          "type": "partition",
+          "label": "Core: Stair/Void Separator"
+        },
+        {
+          "id": "part_core_garden_L",
+          "x": 200,
+          "y": 19000,
+          "w": 900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Garden L"
+        },
+        {
+          "id": "part_core_garden_R",
+          "x": 1900,
+          "y": 19000,
+          "w": 1900,
+          "h": 100,
+          "type": "partition",
+          "label": "Partition: Core/Garden R"
+        },
+        {
+          "id": "part_garden_solar",
+          "x": 200,
+          "y": 22000,
+          "w": 3600,
+          "h": 100,
+          "type": "partition",
+          "label": "Garden/Solar Zone Boundary"
+        }
+      ],
+      "rooms": [
+        {
+          "id": "living_room",
+          "name": "PENTHOUSE SKY LOUNGE",
+          "x": 200,
+          "y": 200,
+          "w": 3600,
+          "h": 5800,
+          "area_sqm": 20.88,
+          "use": "living",
+          "fill": "#e8f4ff",
+          "note": "Large glazing on all 3 exposed sides"
+        },
+        {
+          "id": "terrace",
+          "name": "OPEN TERRACE (FRONT)",
+          "x": 200,
+          "y": 6100,
+          "w": 3600,
+          "h": 3900,
+          "area_sqm": 14.04,
+          "use": "terrace",
+          "fill": "#e0f0e0"
+        },
+        {
+          "id": "terrace",
+          "name": "PERGOLA TERRACE",
+          "x": 200,
+          "y": 10100,
+          "w": 3600,
+          "h": 4900,
+          "area_sqm": 17.64,
+          "use": "terrace",
+          "fill": "#d8efd8"
+        },
+        {
+          "id": "lift_shaft",
+          "name": "LIFT MACHINE ROOM",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "area_sqm": 3.12,
+          "use": "circulation",
+          "fill": "#cbd5e1"
+        },
+        {
+          "id": "staircase",
+          "name": "STAIR HEAD",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "area_sqm": 6.24,
+          "use": "circulation",
+          "fill": "#e9edf2"
+        },
+        {
+          "id": "core_void",
+          "name": "PARAPET VOID",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900,
+          "area_sqm": 3.9,
+          "use": "void",
+          "fill": "#eff6ff"
+        },
+        {
+          "id": "terrace",
+          "name": "ROOFTOP GARDEN",
+          "x": 200,
+          "y": 19100,
+          "w": 3600,
+          "h": 2900,
+          "area_sqm": 10.44,
+          "use": "terrace",
+          "fill": "#c8e6c9"
+        },
+        {
+          "id": "terrace",
+          "name": "SOLAR PANEL ZONE",
+          "x": 200,
+          "y": 22100,
+          "w": 3600,
+          "h": 2700,
+          "area_sqm": 9.72,
+          "use": "terrace",
+          "fill": "#fff9c4"
+        }
+      ],
+      "elements": [
+        {
+          "type": "stairs",
+          "id": "main_stair",
+          "x": 1100,
+          "y": 15100,
+          "w": 1600,
+          "h": 3900,
+          "direction": "down",
+          "tread_depth_mm": 280,
+          "num_treads": 13,
+          "note": "Stairwell continuation from F3; direction down"
+        },
+        {
+          "type": "lift",
+          "id": "main_lift",
+          "x": 200,
+          "y": 15100,
+          "w": 800,
+          "h": 3900,
+          "note": "Lift machine room at roof level"
+        },
+        {
+          "type": "light_well",
+          "id": "core_void",
+          "x": 2800,
+          "y": 15100,
+          "w": 1000,
+          "h": 3900
+        },
+        {
+          "type": "window",
+          "id": "sky_lounge_front_glazing",
+          "x": 400,
+          "y": 0,
+          "width_mm": 3200,
+          "wall_thickness_mm": 200,
+          "note": "Full-height glazing: front facade of sky lounge"
+        },
+        {
+          "type": "pergola",
+          "id": "main_pergola",
+          "x": 200,
+          "y": 10100,
+          "w": 3600,
+          "h": 4900,
+          "note": "Overhead steel pergola / shade canopy over terrace"
+        },
+        {
+          "type": "planter",
+          "id": "planter_L",
+          "x": 200,
+          "y": 19600,
+          "w": 800,
+          "h": 2000,
+          "note": "Raised planter zone — left"
+        },
+        {
+          "type": "planter",
+          "id": "planter_R",
+          "x": 3000,
+          "y": 19600,
+          "w": 600,
+          "h": 2000,
+          "note": "Raised planter zone — right"
+        },
+        {
+          "type": "planter",
+          "id": "planter_rear",
+          "x": 1200,
+          "y": 21000,
+          "w": 1600,
+          "h": 800,
+          "note": "Rear planter strip — mid-terrace"
+        },
+        {
+          "type": "solar_panels",
+          "id": "solar_array",
+          "x": 200,
+          "y": 22100,
+          "w": 3600,
+          "h": 2700,
+          "note": "Solar PV panel array — approx 9.7m\u00b2 — rear portion of roof"
+        }
+      ],
+      "doors": [
+        {
+          "id": "door_sky_terrace",
+          "type": "sliding",
+          "x": 700,
+          "y": 6000,
+          "width_mm": 2000,
+          "wall_thickness_mm": 100,
+          "note": "Sliding glazed door from sky lounge to open terrace"
+        },
+        {
+          "id": "door_core_garden",
+          "type": "swing",
+          "leaf_x1": 1100,
+          "leaf_y1": 19100,
+          "leaf_x2": 1900,
+          "leaf_y2": 19100,
+          "arc_cx": 1100,
+          "arc_cy": 19100,
+          "arc_r": 800,
+          "arc_start": 0,
+          "arc_end": 90,
+          "note": "Stair exit door to rooftop garden"
+        }
+      ],
+      "labels": [
+        {
+          "text": "PENTHOUSE SKY LOUNGE",
+          "x": 2000,
+          "y": 3000,
+          "size": 200
+        },
+        {
+          "text": "FULL HEIGHT GLAZING \u2014 3 EXPOSED SIDES",
+          "x": 2000,
+          "y": 3300,
+          "size": 100
+        },
+        {
+          "text": "3.60\u00d75.80m=20.9m\u00b2",
+          "x": 2000,
+          "y": 3550,
+          "size": 100
+        },
+        {
+          "text": "OPEN TERRACE",
+          "x": 2000,
+          "y": 7700,
+          "size": 200
+        },
+        {
+          "text": "REAR 60% OF FOOTPRINT (4\u00d715m)",
+          "x": 2000,
+          "y": 8000,
+          "size": 100
+        },
+        {
+          "text": "PERGOLA / SHADE STRUCTURE",
+          "x": 2000,
+          "y": 12000,
+          "size": 160
+        },
+        {
+          "text": "OVERHEAD STEEL PERGOLA",
+          "x": 2000,
+          "y": 12300,
+          "size": 100
+        },
+        {
+          "text": "LIFT MACHINE",
+          "x": 600,
+          "y": 17000,
+          "size": 120
+        },
+        {
+          "text": "STAIR HEAD",
+          "x": 1900,
+          "y": 18900,
+          "size": 120
+        },
+        {
+          "text": "ROOFTOP GARDEN",
+          "x": 2000,
+          "y": 20300,
+          "size": 180
+        },
+        {
+          "text": "PLANTER ZONES \u2014 MID TERRACE",
+          "x": 2000,
+          "y": 20600,
+          "size": 100
+        },
+        {
+          "text": "3.60\u00d72.90m=10.4m\u00b2",
+          "x": 2000,
+          "y": 20850,
+          "size": 100
+        },
+        {
+          "text": "SOLAR PANEL ZONE",
+          "x": 2000,
+          "y": 23200,
+          "size": 180
+        },
+        {
+          "text": "~9.7m\u00b2 PHOTOVOLTAIC ARRAY",
+          "x": 2000,
+          "y": 23500,
+          "size": 100
+        }
+      ]
     }
   ]
 }
