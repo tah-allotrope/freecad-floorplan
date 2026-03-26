@@ -4,6 +4,13 @@
 - **Workspace:** `freecad-floorplan`
 - **Objective:** Configure FreeCAD Model Context Protocol (MCP) to work with `opencode` for AI-assisted floorplan modeling.
 
+## Current Task Plan
+- [x] Create a minimal root `AGENTS.md` that follows the user's instruction-budget guidance.
+- [x] Review `plans/home-design-to-architect-workflow.md` against the live repo state and identify stale or unimplemented items.
+- [x] Implement the remaining repo changes needed to align the workflow with the current project state.
+- [x] Verify the code paths that do not require a local FreeCAD binary and record any runtime blockers.
+- [x] Update this file with final results and remaining follow-ups.
+
 ## Progress So Far
 1. **MCP + repo setup:**
    - Installed `uv` to provide `uvx` for launching `freecad-mcp`.
@@ -52,5 +59,27 @@
    - Confirm combined DXF export from the stacked document behaves correctly in FreeCAD.
    - Check whether any F3/F4 room ids or labels should be normalized further after reviewing the rendered outputs.
 5. **Suggested next modeling work once generation is confirmed:**
-   - Add/adjust facade glazing and balcony railing details for `F3`/`F4`.
-   - Consider BIM/IFC export or structural/MEP follow-up once the 3D massing is confirmed.
+    - Add/adjust facade glazing and balcony railing details for `F3`/`F4`.
+    - Consider BIM/IFC export or structural/MEP follow-up once the 3D massing is confirmed.
+
+## Review / Results
+- Added a minimal root `AGENTS.md` that keeps only repo-wide guidance and points deeper details to existing docs.
+- Added `src/facade_utils.py` plus `tests/test_facade_utils.py` so facade/elevation logic is testable outside FreeCAD.
+- Extended `src/generate_floorplan.py` to support the remaining workflow steps already described in the plan doc:
+  - draws rooftop-only symbolic elements (`pergola`, `planter`, `solar_panels`)
+  - draws a front facade elevation via `draw_front_facade(spec)`
+  - exports optional architect-package artifacts via `export_architect_package(...)`
+  - supports batch flags `GENERATE_STACKED=1`, `GENERATE_FACADE=1`, and `EXPORT_ARCHITECT_PACKAGE=1`
+- Updated `run.sh` so the one-command path now attempts floors + stacked model + facade + package exports and reports PDFs / STL / PNG / manifest outputs.
+- Updated `plans/home-design-to-architect-workflow.md` to match the actual repo state: F3/F4 are already specced, stacked/facade/package paths now exist in code, and remaining missing outputs depend on a local FreeCAD runtime.
+- Corrected the stale RPC port note in `plans/PROGRESS.md` to `localhost:9876`.
+
+## Verification
+- Passed: `python -m unittest discover -s tests -v`
+- Passed: `python -m py_compile src/generate_floorplan.py src/facade_utils.py src/freecad_session_starter.py src/floorplan_utils.py`
+- Blocked locally: `freecadcmd --version` failed because `freecadcmd` is not installed / not on PATH in this environment.
+
+## Remaining Follow-up
+1. Install FreeCAD or expose `freecadcmd` on PATH, then run the batch workflow to generate F3/F4 outputs and the new facade/package artifacts.
+2. If PDF export is required, ensure `cairosvg` is available in the FreeCAD Python environment used by `freecadcmd`.
+3. If STL export is required, verify the FreeCAD `Mesh` module is available in the runtime.

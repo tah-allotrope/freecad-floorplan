@@ -49,14 +49,23 @@ SPEC_FILE = os.path.join(PROJECT_DIR, "spec", "floorplan-spec.json")
 OUT_FCSTD = os.path.join(PROJECT_DIR, "output", "fcstd")
 OUT_DXF = os.path.join(PROJECT_DIR, "output", "dxf")
 OUT_SVG = os.path.join(PROJECT_DIR, "output", "svg")
+OUT_PDF = os.path.join(PROJECT_DIR, "output", "pdf")
+OUT_STL = os.path.join(PROJECT_DIR, "output", "stl")
+OUT_PNG = os.path.join(PROJECT_DIR, "output", "png")
 
 from floorplan_utils import cumulative_floor_offsets, total_building_height_mm
+from facade_utils import floor_elevation_bands, front_facade_features
 
 # ── FreeCAD imports ─────────────────────────────────────────────────────────
 try:
     import FreeCAD
     import Draft
     import Part
+
+    try:
+        import FreeCADGui
+    except ImportError:
+        FreeCADGui = None
 
     print("FreeCAD loaded OK")
 except ImportError:
@@ -67,6 +76,13 @@ except ImportError:
 # ── Load spec ───────────────────────────────────────────────────────────────
 with open(SPEC_FILE, encoding="utf-8") as fh:
     spec = json.load(fh)
+
+
+def ensure_output_dirs():
+    """Create all output folders used by the workflow."""
+    for path in (OUT_FCSTD, OUT_DXF, OUT_SVG, OUT_PDF, OUT_STL, OUT_PNG):
+        os.makedirs(path, exist_ok=True)
+
 
 # ── Drawing helpers ──────────────────────────────────────────────────────────
 
@@ -159,12 +175,14 @@ FILL_COLORS = {
     "bedroom_2": (1.00, 0.91, 0.82),
     "ensuite": (0.86, 0.91, 0.98),
     "laundry": (0.96, 0.96, 0.96),
+    "bedroom": (1.00, 0.95, 0.88),
 }
 
 
 def draw_floor(spec, floor):
     """Draw a single floor and return the FreeCAD document."""
     global doc  # Needed for make_box
+    ensure_output_dirs()
     level = floor["level"]
     doc_name = f"Tubehouse_F{level}"
     print(f"\n{'=' * 60}")
@@ -374,6 +392,60 @@ def draw_floor(spec, floor):
                 f"win_{e['id']}_tick_R",
                 grp_symbols,
             )
+        elif e["type"] == "pergola":
+            obj = make_rect(
+                e["x"], e["y"], e["w"], e["h"], e["id"], grp_symbols, face=False
+            )
+            if obj.ViewObject:
+                obj.ViewObject.DrawStyle = "Dashdot"
+                obj.ViewObject.LineColor = (0.55, 0.40, 0.24)
+            bay = max(int(e["w"] / 6), 1)
+            for offset in range(bay, e["w"], bay):
+                make_line(
+                    e["x"] + offset,
+                    e["y"],
+                    e["x"] + offset,
+                    e["y"] + e["h"],
+                    f"{e['id']}_slat_{offset}",
+                    grp_symbols,
+                )
+        elif e["type"] == "planter":
+            obj = make_rect(
+                e["x"], e["y"], e["w"], e["h"], e["id"], grp_symbols, face=True
+            )
+            if obj.ViewObject:
+                obj.ViewObject.ShapeColor = (0.76, 0.90, 0.76)
+                obj.ViewObject.LineColor = (0.27, 0.45, 0.24)
+                obj.ViewObject.Transparency = 20
+        elif e["type"] == "solar_panels":
+            obj = make_rect(
+                e["x"], e["y"], e["w"], e["h"], e["id"], grp_symbols, face=False
+            )
+            if obj.ViewObject:
+                obj.ViewObject.LineColor = (0.14, 0.28, 0.50)
+            cols = 4
+            col_width = e["w"] / cols
+            for index in range(1, cols):
+                x = e["x"] + index * col_width
+                make_line(
+                    x, e["y"], x, e["y"] + e["h"], f"{e['id']}_col_{index}", grp_symbols
+                )
+            make_line(
+                e["x"],
+                e["y"],
+                e["x"] + e["w"],
+                e["y"] + e["h"],
+                f"{e['id']}_diag_1",
+                grp_symbols,
+            )
+            make_line(
+                e["x"] + e["w"],
+                e["y"],
+                e["x"],
+                e["y"] + e["h"],
+                f"{e['id']}_diag_2",
+                grp_symbols,
+            )
 
     # ── 7. DOORS (data-driven from spec) ─────────────────────────────────────
     print("  Drawing doors...")
@@ -515,10 +587,210 @@ def draw_floor(spec, floor):
     return doc
 
 
+def export_svg_to_pdf(svg_path, pdf_path):
+    """Convert an SVG file to PDF when cairosvg is installed."""
+    if not os.path.isfile(svg_path):
+        return False, f"missing SVG input: {svg_path}"
+    try:
+        import cairosvg
+
+        cairosvg.svg2pdf(url=svg_path, write_to=pdf_path)
+        return True, pdf_path
+    except Exception as exc:
+        return False, str(exc)
+
+
+def capture_isometric_view(doc_name, out_png):
+    """Capture an isometric screenshot when the GUI module is available."""
+    if FreeCADGui is None:
+        print("  Screenshot skipped: FreeCADGui unavailable in this session.")
+        return None
+    try:
+        FreeCAD.setActiveDocument(doc_name)
+        gui_doc = FreeCADGui.getDocument(doc_name)
+        if gui_doc is None:
+            raise RuntimeError(f"GUI document not available: {doc_name}")
+        view = gui_doc.activeView()
+        view.viewIsometric()
+        view.fitAll()
+        view.saveImage(out_png, 1600, 1200, "White")
+        print(f"  Screenshot saved: {out_png}")
+        return out_png
+    except Exception as exc:
+        print(f"  Screenshot skipped: {exc}")
+        return None
+
+
+def export_document_stl(doc, out_stl):
+    """Export all part solids from a document to STL."""
+    try:
+        import Mesh
+
+        solids = [
+            obj
+            for obj in doc.Objects
+            if getattr(obj, "TypeId", "").startswith("Part::")
+        ]
+        if not solids:
+            raise RuntimeError("no Part solids found for STL export")
+        Mesh.export(solids, out_stl)
+        print(f"  STL exported: {out_stl}")
+        return out_stl
+    except Exception as exc:
+        print(f"  STL export skipped: {exc}")
+        return None
+
+
+def draw_front_facade(spec):
+    """Draw a simple front facade elevation from the floor plan spec."""
+    global doc
+    ensure_output_dirs()
+    doc_name = "Tubehouse_Front_Facade"
+    print(f"\n{'=' * 60}")
+    print("Processing: Front Facade Elevation")
+    print(f"{'=' * 60}")
+
+    if doc_name in [d.Name for d in FreeCAD.listDocuments().values()]:
+        FreeCAD.closeDocument(doc_name)
+    doc = FreeCAD.newDocument(doc_name)
+
+    grp_elevation = doc.addObject("App::DocumentObjectGroup", "ELEVATION")
+    grp_openings = doc.addObject("App::DocumentObjectGroup", "OPENINGS")
+    grp_labels = doc.addObject("App::DocumentObjectGroup", "LABELS")
+    grp_dims = doc.addObject("App::DocumentObjectGroup", "DIMENSIONS")
+
+    plot_w = spec["project"]["plot_width_mm"]
+    bands = floor_elevation_bands(spec["floors"])
+    floor_lookup = {floor["level"]: floor for floor in spec["floors"]}
+
+    for band in bands:
+        base_z = band["base_z_mm"]
+        height = band["height_mm"]
+        level = band["level"]
+
+        outline = make_rect(
+            0,
+            base_z,
+            plot_w,
+            height,
+            f"F{level}_facade_outline",
+            grp_elevation,
+            face=False,
+        )
+        if outline.ViewObject:
+            outline.ViewObject.LineWidth = 2.0
+            outline.ViewObject.LineColor = (0.20, 0.25, 0.33)
+        make_line(0, base_z, plot_w, base_z, f"F{level}_slab_line", grp_elevation)
+        make_text(f"F{level}", -550, base_z + height / 2, 180, grp_labels)
+
+        facade = front_facade_features(floor_lookup[level])
+        if facade["has_front_balcony"]:
+            rail = make_rect(
+                200,
+                base_z + 950,
+                plot_w - 400,
+                1050,
+                f"F{level}_balcony_rail",
+                grp_openings,
+                face=False,
+            )
+            if rail.ViewObject:
+                rail.ViewObject.LineColor = (0.10, 0.45, 0.35)
+            make_line(
+                200,
+                base_z + 1500,
+                plot_w - 200,
+                base_z + 1500,
+                f"F{level}_balcony_midrail",
+                grp_openings,
+            )
+
+        for opening in facade["openings"]:
+            opening_obj = make_rect(
+                opening["x"],
+                base_z + opening["sill_mm"],
+                opening["width_mm"],
+                opening["height_mm"],
+                opening["id"],
+                grp_openings,
+                face=False,
+            )
+            if opening_obj.ViewObject:
+                if opening["kind"] == "garage_opening":
+                    opening_obj.ViewObject.LineColor = (0.25, 0.25, 0.25)
+                    opening_obj.ViewObject.LineWidth = 2.0
+                elif opening["kind"] == "glazing":
+                    opening_obj.ViewObject.LineColor = (0.24, 0.50, 0.76)
+                else:
+                    opening_obj.ViewObject.LineColor = (0.35, 0.35, 0.35)
+
+        make_text(
+            band["name"].upper(), plot_w / 2, base_z + height - 350, 130, grp_labels
+        )
+
+    total_height_mm = bands[-1]["top_z_mm"] if bands else 0
+    roof_line = make_line(
+        0, total_height_mm, plot_w, total_height_mm, "roof_line", grp_elevation
+    )
+    if roof_line.ViewObject:
+        roof_line.ViewObject.LineWidth = 2.0
+
+    total_dim = Draft.makeDimension(
+        V(plot_w + 500, 0),
+        V(plot_w + 500, total_height_mm),
+        V(plot_w + 900, total_height_mm / 2),
+    )
+    total_dim.Label = "facade_total_height"
+    grp_dims.addObject(total_dim)
+
+    for band in bands:
+        dim = Draft.makeDimension(
+            V(plot_w + 150, band["base_z_mm"]),
+            V(plot_w + 150, band["top_z_mm"]),
+            V(plot_w + 350, (band["base_z_mm"] + band["top_z_mm"]) / 2),
+        )
+        dim.Label = f"facade_floor_{band['level']}_height"
+        grp_dims.addObject(dim)
+
+    out_fcstd = os.path.join(OUT_FCSTD, "front_facade_elevation.FCStd")
+    out_dxf = os.path.join(OUT_DXF, "front_facade_elevation.dxf")
+    out_svg = os.path.join(OUT_SVG, "front_facade_elevation.svg")
+
+    doc.recompute()
+    doc.saveAs(out_fcstd)
+    print(f"  Saved: {out_fcstd}")
+
+    try:
+        import importDXF
+
+        importDXF.export(
+            grp_elevation.OutList
+            + grp_openings.OutList
+            + grp_labels.OutList
+            + grp_dims.OutList,
+            out_dxf,
+        )
+        print(f"  DXF exported: {out_dxf}")
+    except Exception as exc:
+        print(f"  Facade DXF export skipped: {exc}")
+
+    try:
+        import importSVG
+
+        importSVG.export(
+            grp_elevation.OutList + grp_openings.OutList + grp_labels.OutList, out_svg
+        )
+        print(f"  SVG exported: {out_svg}")
+    except Exception as exc:
+        print(f"  Facade SVG export skipped: {exc}")
+
+    return doc
+
+
 # ── 3D stacking: combine all floors in one document ─────────────────────────
 
 
-def stack_floors(floor_specs, floor_height=3.2):
+def stack_floors(floor_specs, floor_height=3.2, regenerate_individual=True):
     """Stack floors F0→F4 into a single FreeCAD 3D document.
 
     Calls the per-floor generation function for each floor to produce the
@@ -540,14 +812,16 @@ def stack_floors(floor_specs, floor_height=3.2):
         The combined document (also saved to output/fcstd/tubehouse_full_3d.FCStd).
     """
     global doc  # make_box uses the global doc reference
+    ensure_output_dirs()
     z_offsets = cumulative_floor_offsets(floor_specs, floor_height)
 
     # ── Step 1: generate individual per-floor documents ──────────────────────
     print("\n" + "=" * 60)
-    print("stack_floors: generating per-floor documents …")
+    print("stack_floors: generating per-floor documents ...")
     print("=" * 60)
-    for floor in floor_specs:
-        draw_floor(spec, floor)
+    if regenerate_individual:
+        for floor in floor_specs:
+            draw_floor(spec, floor)
 
     # ── Step 2: create the combined document ─────────────────────────────────
     combined_name = "Tubehouse_Full_3D"
@@ -616,6 +890,11 @@ def stack_floors(floor_specs, floor_height=3.2):
     except Exception as exc:
         print(f"  DXF export skipped: {exc}")
 
+    capture_isometric_view(
+        combined_name,
+        os.path.join(OUT_PNG, "tubehouse_full_3d_isometric.png"),
+    )
+
     total_h_mm = total_building_height_mm(floor_specs, floor_height)
     print(
         f"\nstack_floors complete — {len(floor_specs)} floors, "
@@ -624,10 +903,96 @@ def stack_floors(floor_specs, floor_height=3.2):
     return combined_doc
 
 
-# ── Main: loop over all floors in spec ──────────────────────────────────────
-for floor in spec["floors"]:
-    draw_floor(spec, floor)
+def export_architect_package(stacked_doc=None):
+    """Export best-effort package artifacts for architect handoff."""
+    ensure_output_dirs()
+    print(f"\n{'=' * 60}")
+    print("Exporting architect package")
+    print(f"{'=' * 60}")
+    manifest = {"generated": [], "skipped": []}
 
-print(f"\nDone — processed {len(spec['floors'])} floor(s).")
-print("To generate the full 3D stacked model, call:")
-print("  stack_floors(spec['floors'])")
+    for floor in spec["floors"]:
+        level = floor["level"]
+        svg_path = os.path.join(OUT_SVG, f"freecad_F{level}.svg")
+        pdf_path = os.path.join(OUT_PDF, f"floorplan_F{level}.pdf")
+        ok, detail = export_svg_to_pdf(svg_path, pdf_path)
+        if ok:
+            manifest["generated"].append(pdf_path)
+            print(f"  PDF exported: {pdf_path}")
+        else:
+            manifest["skipped"].append({"target": pdf_path, "reason": detail})
+            print(f"  PDF skipped: {pdf_path} ({detail})")
+
+    facade_svg = os.path.join(OUT_SVG, "front_facade_elevation.svg")
+    facade_pdf = os.path.join(OUT_PDF, "front_facade_elevation.pdf")
+    ok, detail = export_svg_to_pdf(facade_svg, facade_pdf)
+    if ok:
+        manifest["generated"].append(facade_pdf)
+        print(f"  PDF exported: {facade_pdf}")
+    else:
+        manifest["skipped"].append({"target": facade_pdf, "reason": detail})
+        print(f"  PDF skipped: {facade_pdf} ({detail})")
+
+    if stacked_doc is not None:
+        out_stl = os.path.join(OUT_STL, "tubehouse_full_3d.stl")
+        stl_path = export_document_stl(stacked_doc, out_stl)
+        if stl_path:
+            manifest["generated"].append(stl_path)
+        else:
+            manifest["skipped"].append(
+                {"target": out_stl, "reason": "STL export failed"}
+            )
+
+    screenshot = os.path.join(OUT_PNG, "tubehouse_full_3d_isometric.png")
+    if os.path.isfile(screenshot):
+        manifest["generated"].append(screenshot)
+    else:
+        manifest["skipped"].append(
+            {"target": screenshot, "reason": "screenshot not available"}
+        )
+
+    manifest_path = os.path.join(
+        PROJECT_DIR, "output", "architect_package_manifest.json"
+    )
+    with open(manifest_path, "w", encoding="utf-8") as handle:
+        json.dump(manifest, handle, indent=2)
+    print(f"  Manifest saved: {manifest_path}")
+    return manifest
+
+
+def generate_all_floors():
+    """Generate individual floor outputs for every floor in the spec."""
+    for floor in spec["floors"]:
+        draw_floor(spec, floor)
+    print(f"\nDone - processed {len(spec['floors'])} floor(s).")
+
+
+def env_flag(name):
+    """Parse a truthy environment flag."""
+    return os.environ.get(name, "0").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def main():
+    """Entry point for batch generation inside FreeCAD."""
+    ensure_output_dirs()
+    generate_all_floors()
+
+    stacked_doc = None
+    if env_flag("GENERATE_STACKED"):
+        stacked_doc = stack_floors(spec["floors"], regenerate_individual=False)
+    if env_flag("GENERATE_FACADE"):
+        draw_front_facade(spec)
+    if env_flag("EXPORT_ARCHITECT_PACKAGE"):
+        export_architect_package(stacked_doc=stacked_doc)
+
+    print("To generate the full 3D stacked model manually, call:")
+    print("  stack_floors(spec['floors'])")
+    print("To draw the front facade manually, call:")
+    print("  draw_front_facade(spec)")
+    print("To export the architect package manually, call:")
+    print("  export_architect_package(stacked_doc=None)")
+
+
+# ── Main entrypoint ─────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    main()

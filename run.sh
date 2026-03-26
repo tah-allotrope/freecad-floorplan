@@ -8,7 +8,8 @@
 #   4. If both are present:
 #        a. Starts `uvx freecad-mcp` in the background.
 #        b. Launches FreeCAD headless (freecadcmd) to run generate_floorplan.py.
-#        c. Prints a success summary with output file locations.
+#        c. Optionally generates the stacked model, facade, and architect package.
+#        d. Prints a success summary with output file locations.
 #
 # Usage:
 #   chmod +x run.sh
@@ -142,6 +143,7 @@ fi
 
 # ── 4. Ensure output directories exist ───────────────────────────────────────
 mkdir -p "$OUT_DIR/fcstd" "$OUT_DIR/dxf" "$OUT_DIR/svg"
+mkdir -p "$OUT_DIR/pdf" "$OUT_DIR/stl" "$OUT_DIR/png"
 
 # ── 5. Start freecad-mcp in the background ────────────────────────────────────
 echo ""
@@ -164,7 +166,7 @@ echo ""
 echo -e "${BOLD}  Step 4 — Running generate_floorplan.py${NC}"
 echo ""
 
-if "$FREECAD_CMD" "$GENERATOR"; then
+if GENERATE_STACKED=1 GENERATE_FACADE=1 EXPORT_ARCHITECT_PACKAGE=1 "$FREECAD_CMD" "$GENERATOR"; then
     GEN_EXIT=0
 else
     GEN_EXIT=$?
@@ -206,12 +208,51 @@ done
 
 FULL_3D="$OUT_DIR/fcstd/tubehouse_full_3d.FCStd"
 FULL_DXF="$OUT_DIR/dxf/tubehouse_full_3d.dxf"
+FACADE_FCSTD="$OUT_DIR/fcstd/front_facade_elevation.FCStd"
+FACADE_DXF="$OUT_DIR/dxf/front_facade_elevation.dxf"
+FACADE_SVG="$OUT_DIR/svg/front_facade_elevation.svg"
+FACADE_PDF="$OUT_DIR/pdf/front_facade_elevation.pdf"
+FULL_STL="$OUT_DIR/stl/tubehouse_full_3d.stl"
+FULL_PNG="$OUT_DIR/png/tubehouse_full_3d_isometric.png"
 if [[ -f "$FULL_3D" ]]; then
     echo ""
     echo "  Full 3D  FCStd  $FULL_3D"
 fi
 if [[ -f "$FULL_DXF" ]]; then
     echo "           DXF    $FULL_DXF"
+fi
+if [[ -f "$FULL_STL" ]]; then
+    echo "           STL    $FULL_STL"
+fi
+if [[ -f "$FULL_PNG" ]]; then
+    echo "           PNG    $FULL_PNG"
+fi
+
+if [[ -f "$FACADE_FCSTD" ]]; then
+    echo ""
+    echo "  Facade   FCStd  $FACADE_FCSTD"
+fi
+if [[ -f "$FACADE_DXF" ]]; then
+    echo "           DXF    $FACADE_DXF"
+fi
+if [[ -f "$FACADE_SVG" ]]; then
+    echo "           SVG    $FACADE_SVG"
+fi
+if [[ -f "$FACADE_PDF" ]]; then
+    echo "           PDF    $FACADE_PDF"
+fi
+
+for F in "${FLOORS[@]}"; do
+    PDF="$OUT_DIR/pdf/floorplan_${F}.pdf"
+    if [[ -f "$PDF" ]]; then
+        echo "       PDF    $PDF"
+    fi
+done
+
+MANIFEST="$OUT_DIR/architect_package_manifest.json"
+if [[ -f "$MANIFEST" ]]; then
+    echo ""
+    echo "  Manifest        $MANIFEST"
 fi
 
 echo ""

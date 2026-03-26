@@ -47,7 +47,7 @@ All 5 floors are now fully specified in `spec/floorplan-spec.json`.
 Loops through all floor specs, calls `draw_floor()` for each, then assembles a single combined 3D document (`tubehouse_full_3d.FCStd`) with every floor offset to its correct Z height (default 3.2 m per storey). Also exports a combined DXF.
 
 **`src/freecad_session_starter.py`** — new session helper script.
-Prints a human-readable project summary (floor names, room counts, zone depths, total building height), checks whether the FreeCAD MCP server is reachable on `localhost:12345`, and prints the `opencode.json` snippet you need to enable the MCP connector. Run it with `python src/freecad_session_starter.py` before starting a FreeCAD session to orient yourself quickly.
+Prints a human-readable project summary (floor names, room counts, zone depths, total building height), checks whether the FreeCAD RPC listener is reachable on `localhost:9876` by default, and prints the `opencode.json` snippet you need to enable the MCP connector. Run it with `python src/freecad_session_starter.py` before starting a FreeCAD session to orient yourself quickly.
 
 **`run.sh`** — one-click shell script.
 Checks for FreeCAD and `uv`, starts `freecad-mcp` in the background, runs the generator headless via `freecadcmd`, and prints a final summary of every output file. If prerequisites are missing it prints clear setup instructions rather than crashing. Usage: `chmod +x run.sh && ./run.sh`.
