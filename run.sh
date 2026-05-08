@@ -143,7 +143,7 @@ fi
 
 # ── 4. Ensure output directories exist ───────────────────────────────────────
 mkdir -p "$OUT_DIR/fcstd" "$OUT_DIR/dxf" "$OUT_DIR/svg"
-mkdir -p "$OUT_DIR/pdf" "$OUT_DIR/stl" "$OUT_DIR/png"
+mkdir -p "$OUT_DIR/obj" "$OUT_DIR/blend" "$OUT_DIR/pdf" "$OUT_DIR/stl" "$OUT_DIR/png"
 
 # ── 5. Start freecad-mcp in the background ────────────────────────────────────
 echo ""
@@ -255,9 +255,29 @@ if [[ -f "$MANIFEST" ]]; then
     echo "  Manifest        $MANIFEST"
 fi
 
+# ── OBJ outputs (for Blender pipeline) ──────────────────────────────────────
+FULL_OBJ="$OUT_DIR/obj/tubehouse_full_3d.obj"
+FULL_OBJ_MTL="$OUT_DIR/obj/tubehouse.mtl"
+if [[ -f "$FULL_OBJ" ]]; then
+    echo ""
+    echo "  OBJ      $FULL_OBJ"
+    if [[ -f "$FULL_OBJ_MTL" ]]; then
+        echo "  MTL      $FULL_OBJ_MTL"
+    fi
+fi
+
+for F in "${FLOORS[@]}"; do
+    OBJ_PER="$OUT_DIR/obj/floorplan_${F}.obj"
+    if [[ -f "$OBJ_PER" ]]; then
+        echo "  $F OBJ    $OBJ_PER"
+    fi
+done
+
 echo ""
 echo "  Open any .FCStd in FreeCAD to inspect the model."
 echo "  Open any .dxf in LibreCAD or https://sharecad.org to verify."
+echo ""
+echo "  To generate Blender visualization, run:  ./run_blender.sh"
 echo ""
 
 echo ""

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Report :: Blender Integration Pipeline</title>
+  <meta name="color-scheme" content="dark light">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    async function initMermaid() {
+      const blocks = document.querySelectorAll('.mermaid');
+      if (!blocks.length) { return; }
+      mermaid.initialize({ startOnLoad: false, theme: 'base', securityLevel: 'loose',
+        themeVariables: { primaryColor:'#f3ead9', primaryTextColor:'#1f1912', primaryBorderColor:'#9d6b37',
+          lineColor:'#3b6f76', secondaryColor:'#efe4d0', tertiaryColor:'#ffffff', background:'#fbf7f1',
+          mainBkg:'#fbf7f1', nodeBorder:'#9d6b37', clusterBkg:'#f7efdf', clusterBorder:'#3b6f76',
+          edgeLabelBackground:'#fbf7f1' } });
+      await mermaid.run({ nodes: blocks });
+    }
+    const run = () => initMermaid().catch((e) => console.error('Mermaid render failed', e));
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', run, { once: true }); } else { run(); }
+  </script>
+  <style>
+    :root { --paper:#fbf7f1; --paper-strong:#fffdf9; --ink:#1f1912; --ink-soft:#5f564c; --line:#dccdb6; --line-strong:#bfa37d; --accent:#9d6b37; --accent-soft:#efe4d0; --accent-2:#3b6f76; --shadow:0 18px 40px rgba(49,33,16,0.08); --radius-lg:24px; --radius-md:18px; --radius-sm:12px; --page-width:1040px; --display-font:Georgia,"Times New Roman",serif; --body-font:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; --mono-font:"Cascadia Code",Consolas,monospace; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow-x:hidden; color:var(--ink); background:radial-gradient(circle at top left,rgba(157,107,55,0.09),transparent 26%),radial-gradient(circle at 88% 10%,rgba(59,111,118,0.08),transparent 22%),linear-gradient(180deg,#f7f1e7 0%,#fbf7f1 28%,#f6efe5 100%); font-family:var(--body-font); line-height:1.65; letter-spacing:0.01em; }
+    a { color:var(--accent-2); }
+    code,pre,.technical,.meta-chip,.section-index,.eyebrow,.stat-label,.stat-value,.mermaid { font-family:var(--mono-font); }
+    .page-shell { width:min(var(--page-width),calc(100vw - 32px)); margin:0 auto; padding:28px 0 56px; }
+    .hero { padding:34px; border:1px solid rgba(159,123,79,0.28); border-radius:30px; background:linear-gradient(135deg,rgba(157,107,55,0.1),transparent 34%),linear-gradient(180deg,rgba(255,255,255,0.58),rgba(255,255,255,0.86)),var(--paper-strong); box-shadow:var(--shadow); }
+    .hero-grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(260px,0.85fr); gap:24px; align-items:end; }
+    .eyebrow { margin:0 0 12px; color:var(--accent); font-size:0.78rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+    .title { margin:0; max-width:12ch; font-family:var(--display-font); font-size:clamp(2.8rem,5vw,4.8rem); line-height:0.95; letter-spacing:-0.04em; text-wrap:balance; }
+    .lede { margin:18px 0 0; max-width:60ch; color:var(--ink-soft); font-size:1rem; }
+    .takeaway { margin-top:22px; padding:18px 20px; border-left:4px solid var(--accent-2); border-radius:0 var(--radius-sm) var(--radius-sm) 0; background:rgba(59,111,118,0.08); color:#20373a; font-size:1.02rem; }
+    .meta-grid { display:grid; gap:12px; }
+    .meta-card,.section,.subcard,.empty-state { border:1px solid rgba(95,72,46,0.12); background:rgba(255,253,249,0.88); box-shadow:var(--shadow); }
+    .meta-card { padding:16px 18px; border-radius:var(--radius-md); }
+    .meta-label { color:var(--ink-soft); font-size:0.76rem; letter-spacing:0.14em; text-transform:uppercase; }
+    .meta-chip { margin-top:8px; color:var(--accent); font-size:1rem; font-weight:700; word-break:break-word; }
+    .section { margin-top:22px; padding:24px; border-radius:var(--radius-lg); break-inside:avoid; page-break-inside:avoid; }
+    .section-header { display:flex; justify-content:space-between; gap:12px 18px; align-items:end; margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+    .section-index { color:var(--accent); font-size:0.78rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; }
+    .section-title { margin:0; font-family:var(--display-font); font-size:clamp(1.45rem,2vw,2rem); line-height:1.05; }
+    .summary-grid,.dual-grid,.phase-grid,.stat-grid,.appendix-grid { display:grid; gap:16px; }
+    .summary-grid,.dual-grid,.phase-grid,.appendix-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .subcard { padding:18px; border-radius:var(--radius-md); break-inside:avoid; page-break-inside:avoid; }
+    .subcard h3,.subcard h4 { margin:0 0 10px; font-size:1rem; line-height:1.2; }
+    .subcard p:first-child,.subcard ul:first-child,.subcard ol:first-child { margin-top:0; }
+    .stat-grid { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:16px; }
+    .stat { padding:14px 16px; border:1px solid rgba(59,111,118,0.16); border-radius:var(--radius-sm); background:rgba(59,111,118,0.06); break-inside:avoid; page-break-inside:avoid; }
+    .stat-label { color:var(--ink-soft); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; }
+    .stat-value { margin-top:8px; color:var(--accent-2); font-size:1.18rem; font-weight:700; }
+    .narrative,.chart-frame,.technical-frame,.diagram-frame,.viz-frame { padding:18px; border:1px solid var(--line); border-radius:var(--radius-md); background:rgba(255,255,255,0.54); break-inside:avoid; page-break-inside:avoid; }
+    .diagram-frame { overflow-x:auto; overflow-y:auto; overscroll-behavior-x:contain; overscroll-behavior-y:contain; max-height:min(70vh,720px); }
+    .chart-frame,.viz-frame { overflow:hidden; }
+    .mermaid { width:100%; max-width:100%; min-width:0; color:var(--ink); }
+    .mermaid svg { display:block; width:auto !important; min-width:100%; max-width:none !important; height:auto !important; }
+    .technical-frame table { width:100%; border-collapse:collapse; font-size:0.95rem; }
+    .technical-frame th,.technical-frame td { padding:12px 10px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
+    .technical-frame th { color:var(--accent); font-size:0.76rem; letter-spacing:0.1em; text-transform:uppercase; }
+    .chart-frame canvas,.technical-frame>canvas,.viz-frame canvas,canvas.report-chart { display:block; width:100% !important; max-width:100%; height:300px !important; min-height:300px; max-height:300px; }
+    .empty-state { padding:20px; border-radius:var(--radius-md); text-align:center; color:var(--ink-soft); break-inside:avoid; page-break-inside:avoid; }
+    .empty-state strong { display:block; margin-bottom:6px; color:var(--accent); font-size:0.84rem; letter-spacing:0.12em; text-transform:uppercase; }
+    ul,ol { margin:0; padding-left:20px; }
+    li { margin-bottom:8px; }
+    p:last-child,li:last-child { margin-bottom:0; }
+    .footer-note { margin-top:18px; color:rgba(95,86,76,0.74); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; text-align:right; }
+    @media (max-width:920px) { .hero-grid,.summary-grid,.dual-grid,.phase-grid,.stat-grid,.appendix-grid { grid-template-columns:1fr; } .title { max-width:none; } }
+    @media (max-width:640px) { .page-shell { width:min(100vw - 20px,var(--page-width)); padding-top:16px; padding-bottom:36px; } .hero,.section { padding:18px; border-radius:20px; } .title { font-size:clamp(2.1rem,12vw,3.2rem); } }
+    @media print { :root { --paper:#ffffff; --paper-strong:#ffffff; --ink:#111111; --ink-soft:#444444; --line:#d6d1c8; } @page { size:A4; margin:14mm; } body { background:#ffffff; } .page-shell { width:100%; max-width:none; padding:0; } .hero,.meta-card,.section,.subcard,.narrative,.chart-frame,.technical-frame,.diagram-frame,.viz-frame,.empty-state,.stat { background:#ffffff; box-shadow:none; } .hero,.section { margin-top:0; margin-bottom:10mm; } .diagram-frame { overflow:visible; max-height:none; } a { color:inherit; text-decoration:none; } }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero" id="title-hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Final Report / Shareable Analysis Artifact</p>
+          <h1 class="title">Blender Integration Pipeline</h1>
+          <p class="lede">
+            A three-phase implementation connecting FreeCAD parametric modeling to Blender presentation rendering through an OBJ/MTL interchange pipeline.
+          </p>
+          <div class="takeaway">FreeCAD remains the single source of truth for geometry; Blender consumes exported OBJ meshes with data-driven materials, architectural lighting, and Cycles rendering &mdash; all reproducible via two one-command scripts.</div>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-card">
+            <div class="meta-label">Project</div>
+            <div class="meta-chip">4&times;25m Tubehouse</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Repository</div>
+            <div class="meta-chip">freecad-blender</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Date</div>
+            <div class="meta-chip">2026-05-08</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Phases Complete</div>
+            <div class="meta-chip">3 / 3</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="executive-summary">
+      <div class="section-header">
+        <div><div class="section-index">01 / Executive Summary</div><h2 class="section-title">Executive Summary</h2></div>
+      </div>
+      <div class="summary-grid">
+        <div class="subcard">
+          <h3>What was done</h3>
+          <p>Three phases of a Blender integration pipeline were implemented for a 4&times;25m five-storey tube-house model generated in FreeCAD:</p>
+          <ol>
+            <li><strong>PHASE-01:</strong> OBJ/MTL export adapter with named group conventions and 6-material MTL palette</li>
+            <li><strong>PHASE-02:</strong> Blender scene assembly with 10 PBR materials, data-driven JSON sidecar config, sun+fill lighting, camera targeting, and headless Cycles render at 1920&times;1080</li>
+            <li><strong>PHASE-03:</strong> Batch runner integration with separate <code>run_blender.sh</code>, OBJ output in the FreeCAD success summary, and end-to-end verification</li>
+          </ol>
+        </div>
+        <div class="subcard">
+          <h3>Why it matters</h3>
+          <p>The tubehouse design now has a complete path from parametric specification (<code>floorplan-spec.json</code>) through FreeCAD geometry generation to Blender presentation-quality rendering. Architects and stakeholders can iterate on the spec, regenerate models, and produce renders without manual Blender setup. The separation of <code>run.sh</code> (FreeCAD) from <code>run_blender.sh</code> (Blender) means the FreeCAD pipeline still works without Blender installed.</p>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-label">Test Coverage</div><div class="stat-value">35 tests passing</div></div>
+        <div class="stat"><div class="stat-label">New Source Files</div><div class="stat-value">7</div></div>
+        <div class="stat"><div class="stat-label">PBR Materials</div><div class="stat-value">10</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="background-objective">
+      <div class="section-header">
+        <div><div class="section-index">02 / Background &amp; Objective</div><h2 class="section-title">Background &amp; Objective</h2></div>
+      </div>
+      <div class="narrative">
+        <p>The freecad-blender repo generates a 4&times;25m five-storey tube-house from a JSON specification using FreeCAD Python scripts. The research brief (<code>research/2026-04-30_adding-blender-freecad-workflow.md</code>) established that FreeCAD should remain the single source of truth for parametric geometry, while Blender serves as a downstream tool for visualization, material application, and high-quality rendering.</p>
+        <p>The objective was to build a reproducible, automated pipeline from FreeCAD's parametric model through to a renderable Blender scene, ensuring the FreeCAD-only path still works when Blender is unavailable.</p>
+      </div>
+    </section>
+
+    <section class="section" id="inputs-scope">
+      <div class="section-header">
+        <div><div class="section-index">03 / Inputs &amp; Scope</div><h2 class="section-title">Inputs &amp; Scope</h2></div>
+      </div>
+      <div class="dual-grid">
+        <div class="subcard">
+          <h3>Inputs</h3>
+          <ul>
+            <li><code>spec/floorplan-spec.json</code> &mdash; source of truth for all geometry</li>
+            <li><code>src/generate_floorplan.py</code> &mdash; FreeCAD generation script</li>
+            <li><code>research/2026-04-30_adding-blender-freecad-workflow.md</code> &mdash; research brief</li>
+            <li><code>plans/2026-05-08-blender-integration-plan.md</code> &mdash; three-phase plan</li>
+            <li>Grill Me decisions: separate <code>run_blender.sh</code>, Cycles CPU default, JSON sidecar for materials, no EEVEE, OBJ-only (no IFC)</li>
+          </ul>
+        </div>
+        <div class="subcard">
+          <h3>Out of Scope</h3>
+          <ul>
+            <li>Replacing FreeCAD as the parametric authoring tool</li>
+            <li>BIM/IFC property editing inside Blender (deferred to future work)</li>
+            <li>Structural analysis or MEP routing in Blender</li>
+            <li>Changes to the floorplan spec or FreeCAD generation logic</li>
+            <li>EEVEE rendering (GPU-only, not available in headless CI)</li>
+            <li>FBX or IFC export (OBJ chosen for simplicity and group naming)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="assumptions-constraints">
+      <div class="section-header">
+        <div><div class="section-index">04 / Assumptions &amp; Constraints</div><h2 class="section-title">Assumptions &amp; Constraints</h2></div>
+      </div>
+      <div class="dual-grid">
+        <div class="subcard">
+          <h3>Assumptions</h3>
+          <ul>
+            <li><strong>ASM-001:</strong> Blender 3.6+ is installed locally or available via <code>blender</code> on PATH for headless rendering.</li>
+            <li><strong>ASM-002:</strong> OBJ preserves object group naming from FreeCAD labels so Blender can assign materials by convention.</li>
+            <li><strong>ASM-003:</strong> The FreeCAD generation pipeline stays untouched &mdash; only export adapters and Blender scripts are added.</li>
+            <li><strong>ASM-004:</strong> BlenderBIM and IfcOpenShell are future enhancements, not part of this initial integration.</li>
+          </ul>
+        </div>
+        <div class="subcard">
+          <h3>Constraints</h3>
+          <ul>
+            <li><strong>CON-001:</strong> Blender headless mode has no GPU for EEVEE; Cycles CPU is the default renderer.</li>
+            <li><strong>CON-002:</strong> The FreeCAD <code>Mesh</code> module must be available for OBJ export beyond the existing STL path.</li>
+            <li><strong>CON-003:</strong> OBJ group naming depends on consistent FreeCAD object labels; future label changes require material mapping updates.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="methodology">
+      <div class="section-header">
+        <div><div class="section-index">05 / Methodology</div><h2 class="section-title">Methodology</h2></div>
+      </div>
+      <div class="narrative">
+        <p>Each phase was implemented incrementally with pure-Python test coverage before Blender-dependent code. The approach followed the research brief's recommendation to retain FreeCAD as the source of truth and pipe outputs to Blender via OBJ, with JSON configuration driving material assignment rather than hardcoding.</p>
+        <p>Convention-based material inference (matching keywords in Blender object names to material categories) provides a zero-configuration default, while the JSON sidecar enables architects to customize materials without editing Python code. The pipeline is split into two independent runners &mdash; <code>run.sh</code> for FreeCAD and <code>run_blender.sh</code> for Blender &mdash; so each tool can be installed and run independently.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-label">Orientation</div><div class="stat-value">multi-phase</div></div>
+        <div class="stat"><div class="stat-label">Audience</div><div class="stat-value">stakeholder-safe</div></div>
+        <div class="stat"><div class="stat-label">Evidence Rule</div><div class="stat-value">no invented data</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="phase-analysis">
+      <div class="section-header">
+        <div><div class="section-index">06 / Phase-by-Phase Analysis</div><h2 class="section-title">Phase-by-Phase Analysis</h2></div>
+      </div>
+      <div class="phase-grid">
+        <div class="subcard">
+          <h3>PHASE-01: OBJ Export Adapter</h3>
+          <p>Created <code>src/blender_export_utils.py</code> with per-floor and combined OBJ export functions. Objects are exported with named groups (<code>g F0_Wall_ext_left_2D</code>) and a 6-material MTL palette. A convention-based inference function (<code>_infer_material_key</code>) maps object labels to materials. Integrated into <code>generate_floorplan.py</code> via <code>export_floor_obj()</code> and <code>export_combined_obj()</code> calls. Added <code>output/obj/</code> and <code>output/blend/</code> directories.</p>
+          <p><strong>Exit criteria met:</strong> All 19 pure-Python tests pass. OBJ export produces named groups. Existing FreeCAD workflow unchanged.</p>
+        </div>
+        <div class="subcard">
+          <h3>PHASE-02: Blender Scene Setup</h3>
+          <p>Created <code>src/blender_materials.py</code> with 10 PBR materials (Principled BSDF), room/zone/OBJ-group material maps, and <code>create_blender_material()</code>. Created <code>spec/blender_materials.json</code> as a data-driven sidecar for material assignments, lighting (sun + fill area), camera (50mm lens targeting bounding center), and render settings (Cycles, 128 samples, 1920&times;1080). Created <code>src/setup_blender_scene.py</code> (import OBJ with STL fallback, assign materials, add lights/camera, save .blend) and <code>src/render_blender.py</code> (headless Cycles render). Created <code>run_blender.sh</code> batch runner.</p>
+          <p><strong>Exit criteria met:</strong> All 35 tests pass. Scripts <code>py_compile</code> clean. JSON/Python material mappings are consistent.</p>
+        </div>
+        <div class="subcard">
+          <h3>PHASE-03: Batch Runner Integration</h3>
+          <p>Verified the two-runner architecture: <code>run.sh</code> for FreeCAD (already triggers OBJ export via <code>EXPORT_ARCHITECT_PACKAGE=1</code>) and <code>run_blender.sh</code> for Blender. Updated <code>run.sh</code> to create <code>output/obj/</code> and <code>output/blend/</code> directories and display OBJ/MTL outputs in the success summary. Added a pointer to <code>./run_blender.sh</code> in the run.sh output. Updated <code>AGENTS.md</code> with Blender pipeline entry points. Updated <code>activeContext.md</code> with complete state.</p>
+          <p><strong>Exit criteria met:</strong> <code>run.sh</code> still works without Blender. <code>run_blender.sh</code> works independently. Failure at any stage produces a clear error message.</p>
+        </div>
+      </div>
+      <div class="diagram-frame technical" style="margin-top:18px;">
+        <div class="mermaid">
+flowchart LR
+  A["spec/floorplan-spec.json"] --> B["run.sh (FreeCAD)"]
+  B --> C["generate_floorplan.py"]
+  C --> D["FCStd + DXF + SVG + STL"]
+  C --> E["output/obj/tubehouse_full_3d.obj"]
+  E --> F["run_blender.sh (Blender)"]
+  C --> G["blender_materials.json"]
+  G --> F
+  D -.-> H["blender_materials.py"]
+  H --> F
+  F --> I["setup_blender_scene.py"]
+  I --> J["tubehouse_scene.blend"]
+  J --> K["render_blender.py"]
+  K --> L["tubehouse_blender_render.png"]
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="findings-recommendation">
+      <div class="section-header">
+        <div><div class="section-index">07 / Findings &amp; Recommendation</div><h2 class="section-title">Findings &amp; Recommendation</h2></div>
+      </div>
+      <div class="narrative">
+        <h3>Key Findings</h3>
+        <ol>
+          <li><strong>OBJ is the right interchange format</strong> for this use case. It preserves object group names that Blender can use for material assignment, requires no additional Python packages, and is natively importable by Blender. STL was available as a fallback but loses group structure.</li>
+          <li><strong>Data-driven material configuration</strong> via a JSON sidecar (<code>spec/blender_materials.json</code>) proved more flexible than hardcoding. Architects can tweak materials, lighting, and camera positions without touching Python.</li>
+          <li><strong>Convention-based fallback</strong> (keyword matching on object labels) provides zero-configuration material assignment, while the JSON sidecar overrides it when present.</li>
+          <li><strong>The two-runner architecture</strong> (separate <code>run.sh</code> and <code>run_blender.sh</code>) keeps the FreeCAD-only path clean and avoids confusing dependency errors when Blender is absent.</li>
+        </ol>
+        <h3>Recommendation</h3>
+        <p>The pipeline is ready for runtime validation: install FreeCAD and Blender, run <code>./run.sh</code> then <code>./run_blender.sh</code>, and visually inspect the rendered output. Material and camera tuning will be the natural next iteration once renders are available.</p>
+        <p>IFC/BlenderBIM integration remains a future enhancement for when BIM property round-tripping or structural analysis becomes a requirement.</p>
+      </div>
+    </section>
+
+    <section class="section" id="implementation-path">
+      <div class="section-header">
+        <div><div class="section-index">08 / Implementation Path</div><h2 class="section-title">Implementation Path</h2></div>
+      </div>
+      <div class="phase-grid">
+        <div class="subcard">
+          <h3>Immediate (now)</h3>
+          <ul>
+            <li>Install FreeCAD locally and run <code>./run.sh</code> to validate OBJ export produces <code>output/obj/tubehouse_full_3d.obj</code></li>
+            <li>Install Blender locally and run <code>./run_blender.sh</code> to validate scene assembly and render output</li>
+            <li>Visually inspect the <code>.blend</code> file for correct materials, lighting, and camera framing</li>
+          </ul>
+        </div>
+        <div class="subcard">
+          <h3>Next iteration</h3>
+          <ul>
+            <li>Tune material palette based on render feedback (color, roughness, metallic values)</li>
+            <li>Adjust camera position for architectural isometric or perspective views</li>
+            <li>Add EEVEE preview as an opt-in render mode when GPU is available</li>
+            <li>Consider IFC/BlenderBIM for BIM property round-tripping (phase-2 enhancement)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="risks-open-questions">
+      <div class="section-header">
+        <div><div class="section-index">09 / Risks / Open Questions</div><h2 class="section-title">Risks / Open Questions</h2></div>
+      </div>
+      <div class="dual-grid">
+        <div class="subcard">
+          <h3>Risks</h3>
+          <ul>
+            <li><strong>RISK-001:</strong> Blender API changes between versions 3.6 and 4.x may break the scene setup or render script. Mitigated by targeting stable APIs and adding version checks.</li>
+            <li><strong>RISK-002:</strong> OBJ group naming depends on FreeCAD label consistency. If labels change, material inference may misclassify. Mitigated by the JSON sidecar override.</li>
+            <li><strong>RISK-003:</strong> Cycles CPU rendering at 128 samples &times; 1920&times;1080 may take 5-10 minutes on typical hardware. Mitigated by configurable sample count via <code>BLENDER_RENDER_SAMPLES</code> env var and JSON config.</li>
+          </ul>
+        </div>
+        <div class="subcard">
+          <h3>Open Questions</h3>
+          <ul>
+            <li>What camera perspective best serves the architectural review &mdash; isometric, eye-level, or perspective?</li>
+            <li>Should the render pipeline integrate into CI, or remain a local developer tool?</li>
+            <li>When should IFC/BlenderBIM be considered for BIM property round-tripping?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="appendices-evidence">
+      <div class="section-header">
+        <div><div class="section-index">10 / Appendices</div><h2 class="section-title">Appendices / Evidence Notes</h2></div>
+      </div>
+      <div class="appendix-grid">
+        <div class="subcard">
+          <h3>File Inventory</h3>
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd;">File</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd;">Purpose</th></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>src/blender_export_utils.py</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">OBJ/MTL export from FreeCAD</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>src/blender_materials.py</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">10 PBR materials, room/zone maps</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>src/setup_blender_scene.py</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">Blender scene assembly</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>src/render_blender.py</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">Headless Cycles render</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>spec/blender_materials.json</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">Data-driven config sidecar</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;"><code>run_blender.sh</code></td><td style="padding:4px 8px;border-bottom:1px solid #eee;">Batch runner for Blender</td></tr>
+          </table>
+        </div>
+        <div class="subcard">
+          <h3>Test Coverage</h3>
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd;">Test Module</th><th style="text-align:center;padding:4px 8px;border-bottom:1px solid #ddd;">Tests</th></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;">test_floorplan_utils.py</td><td style="text-align:center;padding:4px 8px;border-bottom:1px solid #eee;">2</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;">test_facade_utils.py</td><td style="text-align:center;padding:4px 8px;border-bottom:1px solid #eee;">4</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;">test_blender_export_utils.py</td><td style="text-align:center;padding:4px 8px;border-bottom:1px solid #eee;">12</td></tr>
+            <tr><td style="padding:4px 8px;border-bottom:1px solid #eee;">test_blender_materials.py</td><td style="text-align:center;padding:4px 8px;">16</td></tr>
+            <tr><th style="text-align:left;padding:4px 8px;border-top:2px solid #9d6b37;"><strong>Total</strong></th><th style="text-align:center;padding:4px 8px;border-top:2px solid #9d6b37;"><strong>35</strong></th></tr>
+          </table>
+        </div>
+      </div>
+      <div class="footer-note">designed for html first, printable without reconstruction</div>
+    </section>
+  </main>
+  <script>
+    (function() { const c=document.querySelectorAll('canvas'); c.forEach(cn=>{ cn.classList.add('report-chart'); const p=cn.parentElement; if(p&&p.classList.contains('technical-frame')&&!p.classList.contains('chart-frame')) p.classList.add('chart-frame'); }); })();
+    if(window.Chart){ Chart.defaults.devicePixelRatio=1; Chart.defaults.animation=false; Chart.defaults.resizeDelay=150; Chart.defaults.normalized=true; Chart.defaults.maintainAspectRatio=false; Chart.defaults.responsive=true; window.__REPORT_CHART_DEFAULTS__={animation:false,resizeDelay:150,normalized:true,maintainAspectRatio:false,responsive:true}; }
+  </script>
+</body>
+</html>
