@@ -1,0 +1,77 @@
+{
+  "_comment": "Material assignments for the tubehouse Blender scene. Maps room IDs and zone IDs to material names defined in src/blender_materials.py. OBJ group mapping uses the convention key from blender_export_utils.py (wall, room, stair, symbol, solid, slab).",
+  "room_materials": {
+    "parking": "Concrete_Wall",
+    "commercial": "Room_Fill",
+    "lift_shaft": "Steel_Railing",
+    "staircase": "Stair_Concrete",
+    "core_void": "Glass_Glazing",
+    "utility": "Concrete_Wall",
+    "bathroom": "Tile_Bathroom",
+    "ensuite": "Tile_Bathroom",
+    "rear_void": "Glass_Glazing",
+    "bedroom": "Wood_Flooring",
+    "living": "Wood_Flooring",
+    "kitchen": "Tile_Bathroom",
+    "balcony": "Concrete_Wall",
+    "terrace": "Concrete_Wall",
+    "living_room": "Wood_Flooring",
+    "working_room": "Wood_Flooring",
+    "master_bedroom": "Wood_Flooring",
+    "bedroom_2": "Wood_Flooring",
+    "laundry": "Tile_Bathroom"
+  },
+  "zone_materials": {
+    "parking": "Concrete_Wall",
+    "reception": "Room_Fill",
+    "office": "Room_Fill",
+    "storage": "Concrete_Wall",
+    "core": "Steel_Railing",
+    "staff": "Room_Fill",
+    "balcony": "Concrete_Wall",
+    "living": "Wood_Flooring",
+    "dining": "Wood_Flooring",
+    "library": "Wood_Flooring",
+    "home_office": "Wood_Flooring",
+    "bathroom": "Tile_Bathroom",
+    "kitchen": "Tile_Bathroom",
+    "rear_void": "Glass_Glazing"
+  },
+  "obj_group_materials": {
+    "wall": "Concrete_Wall",
+    "room": "Room_Fill",
+    "stair": "Stair_Concrete",
+    "symbol": "Symbol_Line",
+    "solid": "Solid_Generic",
+    "slab": "Floor_Slab"
+  },
+  "lighting": {
+    "sun": {
+      "type": "SUN",
+      "energy": 3.0,
+      "angle_deg": 45,
+      "rotation_euler": [0.785, 0.0, 0.524],
+      "color": [1.0, 0.95, 0.85]
+    },
+    "fill": {
+      "type": "AREA",
+      "energy": 1.0,
+      "size": 5.0,
+      "location": [2.0, -5.0, 12.0],
+      "rotation_euler": [0.785, 0.0, 0.0],
+      "color": [0.85, 0.90, 1.0]
+    }
+  },
+  "camera": {
+    "lens_mm": 50,
+    "location": [8.0, -8.0, 14.0],
+    "type": "PERSP"
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 128,
+    "resolution_x": 1920,
+    "resolution_y": 1080,
+    "cpu_threads": 0
+  }
+}

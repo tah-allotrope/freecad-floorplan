@@ -13,7 +13,12 @@
 - `spec/floorplan-spec.json` is the source of truth for floors, rooms, doors, and elements.
 - `src/generate_floorplan.py` generates floor plans, the stacked massing model, the facade elevation, and export artifacts.
 - `src/floorplan_utils.py` and `src/facade_utils.py` hold pure logic that should be tested outside FreeCAD.
-- `run.sh` is the one-command batch runner when FreeCAD is installed.
+- `src/blender_export_utils.py` exports OBJ/MTL from FreeCAD for Blender consumption.
+- `src/blender_materials.py` defines the material palette and room/zone-to-material mappings.
+- `src/setup_blender_scene.py` assembles a Blender scene (import OBJ, apply materials, add lights/camera).
+- `src/render_blender.py` runs headless Cycles render from the assembled scene.
+- `spec/blender_materials.json` is the data-driven material config sidecar (room/zone/obj group -> material assignments, lighting, camera, render).
+- `run.sh` is the FreeCAD batch runner; `run_blender.sh` is the Blender visualization runner.
 
 ## Working Rules
 - Prefer minimal, spec-driven changes; do not redesign floors unless the task explicitly asks for it.
