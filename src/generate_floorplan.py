@@ -49,12 +49,15 @@ SPEC_FILE = os.path.join(PROJECT_DIR, "spec", "floorplan-spec.json")
 OUT_FCSTD = os.path.join(PROJECT_DIR, "output", "fcstd")
 OUT_DXF = os.path.join(PROJECT_DIR, "output", "dxf")
 OUT_SVG = os.path.join(PROJECT_DIR, "output", "svg")
+OUT_OBJ = os.path.join(PROJECT_DIR, "output", "obj")
+OUT_BLEND = os.path.join(PROJECT_DIR, "output", "blend")
 OUT_PDF = os.path.join(PROJECT_DIR, "output", "pdf")
 OUT_STL = os.path.join(PROJECT_DIR, "output", "stl")
 OUT_PNG = os.path.join(PROJECT_DIR, "output", "png")
 
 from floorplan_utils import cumulative_floor_offsets, total_building_height_mm
 from facade_utils import floor_elevation_bands, front_facade_features
+from blender_export_utils import export_floor_obj, export_combined_obj
 
 # ── FreeCAD imports ─────────────────────────────────────────────────────────
 try:
@@ -80,7 +83,7 @@ with open(SPEC_FILE, encoding="utf-8") as fh:
 
 def ensure_output_dirs():
     """Create all output folders used by the workflow."""
-    for path in (OUT_FCSTD, OUT_DXF, OUT_SVG, OUT_PDF, OUT_STL, OUT_PNG):
+    for path in (OUT_FCSTD, OUT_DXF, OUT_SVG, OUT_OBJ, OUT_BLEND, OUT_PDF, OUT_STL, OUT_PNG):
         os.makedirs(path, exist_ok=True)
 
 
@@ -583,6 +586,9 @@ def draw_floor(spec, floor):
     except Exception as exc:
         print(f"    SVG export skipped: {exc}")
 
+    # ── 13. EXPORT OBJ ────────────────────────────────────────────────────────
+    export_floor_obj(doc, level, OUT_OBJ)
+
     print(f"  Floor {level} complete.")
     return doc
 
@@ -894,6 +900,9 @@ def stack_floors(floor_specs, floor_height=3.2, regenerate_individual=True):
         combined_name,
         os.path.join(OUT_PNG, "tubehouse_full_3d_isometric.png"),
     )
+
+    # ── Step 6: export combined OBJ ──────────────────────────────────────────
+    export_combined_obj(combined_doc, OUT_OBJ)
 
     total_h_mm = total_building_height_mm(floor_specs, floor_height)
     print(
