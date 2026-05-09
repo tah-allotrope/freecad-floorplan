@@ -158,7 +158,7 @@ def create_blender_material(name, definition=None):
     mat.blend_method = "OPAQUE"
 
     if definition.get("transmission", 0) > 0:
-        mat.blend_method = "ALPHA"
+        mat.blend_method = "BLEND"
 
     nodes = mat.node_tree.nodes
     links = mat.node_tree.links
@@ -174,8 +174,15 @@ def create_blender_material(name, definition=None):
 
     if definition.get("transmission", 0) > 0:
         bsdf.inputs["Alpha"].default_value = base_color[3]
-        bsdf.inputs["Transmission"].default_value = definition["transmission"]
-        bsdf.inputs["IOR"].default_value = definition.get("ior", 1.45)
+        transmission_input = (
+            bsdf.inputs.get("Transmission Weight")
+            or bsdf.inputs.get("Transmission")
+        )
+        if transmission_input is not None:
+            transmission_input.default_value = definition["transmission"]
+        ior_input = bsdf.inputs.get("IOR")
+        if ior_input is not None:
+            ior_input.default_value = definition.get("ior", 1.45)
 
     return mat
 

@@ -83,7 +83,10 @@ def import_obj(obj_path):
         return False
 
     print(f"  Importing OBJ: {obj_path}")
-    bpy.ops.import_scene.obj(filepath=obj_path, axis_forward="-Z", axis_up="Y")
+    if hasattr(bpy.ops, "wm") and hasattr(bpy.ops.wm, "obj_import"):
+        bpy.ops.wm.obj_import(filepath=obj_path, forward_axis="NEGATIVE_Z", up_axis="Y")
+    else:
+        bpy.ops.import_scene.obj(filepath=obj_path, axis_forward="-Z", axis_up="Y")
     return True
 
 
@@ -96,7 +99,10 @@ def import_stl(stl_path):
         return False
 
     print(f"  Importing STL fallback: {stl_path}")
-    bpy.ops.import_mesh.stl(filepath=l_path)
+    if hasattr(bpy.ops, "wm") and hasattr(bpy.ops.wm, "stl_import"):
+        bpy.ops.wm.stl_import(filepath=stl_path)
+    else:
+        bpy.ops.import_mesh.stl(filepath=stl_path)
     return True
 
 

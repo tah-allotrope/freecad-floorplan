@@ -57,7 +57,8 @@ def configure_cycles(scene, config):
         cycles.thread_mode = "AUTO"
 
     cycles.feature_set = "SUPPORTED"
-    cycles.debug_bvh_type = "AUTO"
+    if hasattr(cycles, "debug_bvh_type"):
+        cycles.debug_bvh_type = "DYNAMIC_BVH"
     cycles.debug_use_spatial_splits = True
 
     print(f"  Cycles configured: {samples} samples, thread_mode={cycles.thread_mode}")

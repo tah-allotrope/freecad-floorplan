@@ -54,6 +54,7 @@ if [[ -z "$BLENDER_CMD" ]]; then
         "C:/Program Files/Blender Foundation/Blender 4.1/blender.exe"
         "C:/Program Files/Blender Foundation/Blender 4.0/blender.exe"
         "C:/Program Files/Blender Foundation/Blender 3.6/blender.exe"
+        "C:/Users/tukum/Blender/blender-4.1.1-windows-x64/blender.exe"
     )
 
     for candidate in "${CANDIDATES[@]}"; do
