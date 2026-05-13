@@ -53,6 +53,7 @@ OUT_OBJ = os.path.join(PROJECT_DIR, "output", "obj")
 OUT_BLEND = os.path.join(PROJECT_DIR, "output", "blend")
 OUT_PDF = os.path.join(PROJECT_DIR, "output", "pdf")
 OUT_STL = os.path.join(PROJECT_DIR, "output", "stl")
+OUT_IFC = os.path.join(PROJECT_DIR, "output", "ifc")
 OUT_PNG = os.path.join(PROJECT_DIR, "output", "png")
 
 from floorplan_utils import cumulative_floor_offsets, total_building_height_mm
@@ -83,7 +84,7 @@ with open(SPEC_FILE, encoding="utf-8") as fh:
 
 def ensure_output_dirs():
     """Create all output folders used by the workflow."""
-    for path in (OUT_FCSTD, OUT_DXF, OUT_SVG, OUT_OBJ, OUT_BLEND, OUT_PDF, OUT_STL, OUT_PNG):
+    for path in (OUT_FCSTD, OUT_DXF, OUT_SVG, OUT_OBJ, OUT_BLEND, OUT_PDF, OUT_STL, OUT_IFC, OUT_PNG):
         os.makedirs(path, exist_ok=True)
 
 
@@ -991,6 +992,14 @@ def main():
         stacked_doc = stack_floors(spec["floors"], regenerate_individual=False)
     if env_flag("GENERATE_FACADE"):
         draw_front_facade(spec)
+    if env_flag("EXPORT_IFC"):
+        from ifc_export_utils import export_ifc
+
+        ifc_path = os.path.join(OUT_IFC, "tubehouse.ifc")
+        result = export_ifc(spec, ifc_path)
+        print(f"  IFC exported: {ifc_path}")
+        print(f"    Storeys: {result['storeys']}, Walls: {result['walls']}, "
+              f"Spaces: {result['spaces']}, Doors: {result['doors']}")
     if env_flag("EXPORT_ARCHITECT_PACKAGE"):
         export_architect_package(stacked_doc=stacked_doc)
 
