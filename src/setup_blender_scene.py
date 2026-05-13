@@ -138,6 +138,71 @@ def assign_materials(config=None):
                 obj.data.materials.append(materials[mat_name])
 
 
+def add_ground_plane(config=None):
+    """Add a ground plane mesh below the building."""
+    if bpy is None:
+        return
+
+    ground_cfg = (config or {}).get("ground_plane", {})
+    size = ground_cfg.get("size", 60.0)
+    mat_name = ground_cfg.get("material", "Ground_Concrete")
+
+    bpy.ops.mesh.primitive_plane_add(size=size, location=(0, 0, 0))
+    ground = bpy.context.active_object
+    ground.name = "Ground_Plane"
+
+    materials = create_all_materials()
+    if mat_name in materials:
+        if ground.data.materials:
+            ground.data.materials[0] = materials[mat_name]
+        else:
+            ground.data.materials.append(materials[mat_name])
+    print(f"  Added ground plane (size={size}m, material={mat_name})")
+
+
+def add_environment(config=None):
+    """Set up the World shader with HDRI or solid background color."""
+    if bpy is None:
+        return
+
+    env_cfg = (config or {}).get("environment", {})
+    hdri_path = env_cfg.get("hdri_path", None)
+    bg_color = env_cfg.get("background_color", [0.5, 0.6, 0.7])
+    bg_strength = env_cfg.get("background_strength", 1.0)
+
+    world = bpy.context.scene.world
+    if world is None:
+        world = bpy.data.worlds.new("Tubehouse_World")
+        bpy.context.scene.world = world
+
+    world.use_nodes = True
+    nodes = world.node_tree.nodes
+    links = world.node_tree.links
+
+    bg_node = nodes.get("Background")
+    if bg_node is None:
+        bg_node = nodes.new("ShaderNodeBackground")
+        bg_node.name = "Background"
+
+    output_node = nodes.get("World Output")
+    if output_node is None:
+        output_node = nodes.new("ShaderNodeOutputWorld")
+        output_node.name = "World Output"
+
+    if hdri_path and os.path.isfile(hdri_path):
+        env_node = nodes.new("ShaderNodeTexEnvironment")
+        env_node.image = bpy.data.images.load(hdri_path)
+        links.new(env_node.outputs["Color"], bg_node.inputs["Color"])
+        bg_node.inputs["Strength"].default_value = bg_strength
+        print(f"  Added HDRI environment: {hdri_path}")
+    else:
+        bg_node.inputs["Color"].default_value = bg_color + [1.0]
+        bg_node.inputs["Strength"].default_value = bg_strength
+        print(f"  Added solid background (color={bg_color}, strength={bg_strength})")
+
+    links.new(bg_node.outputs["Background"], output_node.inputs["Surface"])
+
+
 def add_lighting(config=None):
     """Add sun lamp and fill light to the scene."""
     if bpy is None:
@@ -270,6 +335,12 @@ def main():
 
     print("  Assigning materials...")
     assign_materials(config)
+
+    print("  Adding ground plane...")
+    add_ground_plane(config)
+
+    print("  Adding environment...")
+    add_environment(config)
 
     print("  Adding lighting...")
     add_lighting(config)

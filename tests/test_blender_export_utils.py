@@ -1,6 +1,7 @@
 import unittest
 import os
 import tempfile
+import math
 
 from src.blender_export_utils import (
     obj_group_name,
@@ -8,6 +9,8 @@ from src.blender_export_utils import (
     obj_path_for_combined,
     write_mtl,
     MATERIAL_PALETTE,
+    _compute_face_normals,
+    _is_3d_solid,
 )
 
 
@@ -84,6 +87,94 @@ class MaterialPaletteTest(unittest.TestCase):
             for val in mat["Kd"]:
                 self.assertGreaterEqual(val, 0.0)
                 self.assertLessEqual(val, 1.0)
+
+
+class ComputeFaceNormalsTest(unittest.TestCase):
+    def test_unit_length_normals(self):
+        verts = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]
+        faces = [(0, 1, 2)]
+        normals = _compute_face_normals(verts, faces)
+        self.assertEqual(len(normals), 1)
+        nx, ny, nz = normals[0]
+        length = math.sqrt(nx * nx + ny * ny + nz * nz)
+        self.assertAlmostEqual(length, 1.0, places=6)
+
+    def test_upward_normal_for_z_up_triangle(self):
+        verts = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]
+        faces = [(0, 1, 2)]
+        normals = _compute_face_normals(verts, faces)
+        nx, ny, nz = normals[0]
+        self.assertGreater(nz, 0.0)
+
+    def test_degenerate_triangle_gives_fallback(self):
+        verts = [(0, 0, 0), (0, 0, 0), (0, 0, 0)]
+        faces = [(0, 1, 2)]
+        normals = _compute_face_normals(verts, faces)
+        self.assertEqual(len(normals), 1)
+        self.assertAlmostEqual(normals[0][2], 1.0, places=6)
+
+    def test_multiple_faces(self):
+        verts = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0)]
+        faces = [(0, 1, 2), (1, 3, 2)]
+        normals = _compute_face_normals(verts, faces)
+        self.assertEqual(len(normals), 2)
+
+    def test_cube_normals_different_directions(self):
+        verts = [
+            (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0),
+            (0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1),
+        ]
+        faces = [
+            (0, 1, 2), (0, 2, 3),
+            (4, 6, 5), (4, 7, 6),
+            (0, 4, 5), (0, 5, 1),
+            (2, 6, 7), (2, 7, 3),
+            (0, 3, 7), (0, 7, 4),
+            (1, 5, 6), (1, 6, 2),
+        ]
+        normals = _compute_face_normals(verts, faces)
+        self.assertEqual(len(normals), 12)
+        for nx, ny, nz in normals:
+            length = math.sqrt(nx * nx + ny * ny + nz * nz)
+            self.assertAlmostEqual(length, 1.0, places=6)
+
+
+class Is3dSolidTest(unittest.TestCase):
+    def test_none_shape(self):
+        class FakeObj:
+            pass
+        obj = FakeObj()
+        self.assertFalse(_is_3d_solid(obj))
+
+    def test_no_shape_attr(self):
+        class FakeObj:
+            pass
+        obj = FakeObj()
+        self.assertFalse(_is_3d_solid(obj))
+
+    def test_shape_with_solids(self):
+        class FakeShape:
+            Solids = [True]
+            Volume = 100
+        class FakeObj:
+            Shape = FakeShape()
+        self.assertTrue(_is_3d_solid(FakeObj()))
+
+    def test_shape_with_positive_volume(self):
+        class FakeShape:
+            Solids = []
+            Volume = 50
+        class FakeObj:
+            Shape = FakeShape()
+        self.assertTrue(_is_3d_solid(FakeObj()))
+
+    def test_shape_empty(self):
+        class FakeShape:
+            Solids = []
+            Volume = 0
+        class FakeObj:
+            Shape = FakeShape()
+        self.assertFalse(_is_3d_solid(FakeObj()))
 
 
 if __name__ == "__main__":

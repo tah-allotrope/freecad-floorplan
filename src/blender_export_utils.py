@@ -92,7 +92,46 @@ def _triangulate_mesh(shape):
     return verts, faces
 
 
-def _export_objects_to_obj(objects, obj_path, mtl_filename, group_prefix=""):
+def _is_3d_solid(obj):
+    """Return True if the object has 3D solid geometry worth exporting."""
+    if not hasattr(obj, "Shape") or obj.Shape is None:
+        return False
+    if obj.Shape.Solids:
+        return True
+    if obj.Shape.Volume > 0:
+        return True
+    return False
+
+
+def _compute_face_normals(verts, faces):
+    """Compute per-face normals from vertex positions.
+
+    Returns a list of (nx, ny, nz) tuples, one per face.
+    Each normal is unit-length and consistently oriented.
+    """
+    normals = []
+    for i0, i1, i2 in faces:
+        v0 = verts[i0]
+        v1 = verts[i1]
+        v2 = verts[i2]
+        e1 = (v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2])
+        e2 = (v2[0] - v0[0], v2[1] - v0[1], v2[2] - v0[2])
+        nx = e1[1] * e2[2] - e1[2] * e2[1]
+        ny = e1[2] * e2[0] - e1[0] * e2[2]
+        nz = e1[0] * e2[1] - e1[1] * e2[0]
+        length = math.sqrt(nx * nx + ny * ny + nz * nz)
+        if length > 1e-12:
+            nx /= length
+            ny /= length
+            nz /= length
+        else:
+            nx, ny, nz = 0.0, 0.0, 1.0
+        normals.append((nx, ny, nz))
+    return normals
+
+
+def _export_objects_to_obj(objects, obj_path, mtl_filename, group_prefix="",
+                           filter_3d_only=True, scale_factor=0.001):
     """Export a list of FreeCAD objects to an OBJ file.
 
     Parameters
@@ -105,17 +144,22 @@ def _export_objects_to_obj(objects, obj_path, mtl_filename, group_prefix=""):
         MTL filename referenced in the OBJ (e.g. 'tubehouse.mtl').
     group_prefix : str
         Prefix for OBJ groups (e.g. 'F0_' for floor 0 objects).
+    filter_3d_only : bool
+        If True, skip objects without 3D solid geometry (2D wires, dimensions, text).
+    scale_factor : float
+        Multiply vertex coordinates by this factor. Default 0.001 converts mm to meters.
     """
     vertex_offset = 1
-    obj_lines = [f"# Tubehouse OBJ export\n", f"mtllib {mtl_filename}\n"]
-    all_verts = []
-    all_faces = []
+    normal_offset = 1
+    units_label = "meters" if scale_factor == 0.001 else "custom"
+    obj_lines = [f"# Tubehouse OBJ export\n", f"# units: {units_label}\n",
+                 f"mtllib {mtl_filename}\n"]
     current_material = ""
 
     for obj in objects:
         if not hasattr(obj, "Shape") or obj.Shape is None:
             continue
-        if not obj.Shape.Solids and not obj.Shape.Wires:
+        if filter_3d_only and not _is_3d_solid(obj):
             continue
 
         group_name = f"{group_prefix}{obj.Label}".replace(" ", "_")
@@ -132,20 +176,32 @@ def _export_objects_to_obj(objects, obj_path, mtl_filename, group_prefix=""):
         except Exception:
             continue
 
+        verts = []
         n_verts = mesh_obj.CountPoints
         for i in range(n_verts):
             pt = mesh_obj.GetPoint(i)
-            obj_lines.append(f"v {pt.x:.6f} {pt.y:.6f} {pt.z:.6f}\n")
+            verts.append((pt.x * scale_factor, pt.y * scale_factor, pt.z * scale_factor))
+            obj_lines.append(f"v {verts[-1][0]:.6f} {verts[-1][1]:.6f} {verts[-1][2]:.6f}\n")
 
+        faces = []
         for i in range(mesh_obj.CountFacets):
             fc = mesh_obj.GetFace(i)
+            faces.append((fc.Point1, fc.Point2, fc.Point3))
+
+        normals = _compute_face_normals(verts, faces)
+        for nx, ny, nz in normals:
+            obj_lines.append(f"vn {nx:.6f} {ny:.6f} {nz:.6f}\n")
+
+        for fi, (i0, i1, i2) in enumerate(faces):
+            ni = fi + normal_offset
             obj_lines.append(
-                f"f {fc.Point1 + vertex_offset} "
-                f"{fc.Point2 + vertex_offset} "
-                f"{fc.Point3 + vertex_offset}\n"
+                f"f {i0 + vertex_offset}//{ni} "
+                f"{i1 + vertex_offset}//{ni} "
+                f"{i2 + vertex_offset}//{ni}\n"
             )
 
         vertex_offset += n_verts
+        normal_offset += len(faces)
 
     with open(obj_path, "w", encoding="utf-8") as fh:
         fh.writelines(obj_lines)
@@ -168,7 +224,7 @@ def _infer_material_key(obj, group_prefix=""):
     return "room"
 
 
-def export_floor_obj(doc, level, output_dir):
+def export_floor_obj(doc, level, output_dir, filter_3d_only=True, scale_factor=0.001):
     """Export one floor's document objects to OBJ with named groups.
 
     Parameters
@@ -179,6 +235,10 @@ def export_floor_obj(doc, level, output_dir):
         Floor level (e.g. 0 for ground).
     output_dir : str
         Directory to write .obj and .mtl files.
+    filter_3d_only : bool
+        If True, skip 2D-only objects (wires, dimensions, text).
+    scale_factor : float
+        Vertex scale factor. Default 0.001 converts mm to meters.
 
     Returns
     -------
@@ -207,12 +267,15 @@ def export_floor_obj(doc, level, output_dir):
         print(f"  OBJ export for F{level}: no exportable objects found, skipping")
         return None
 
-    _export_objects_to_obj(exportable, obj_path, mtl_filename, group_prefix=group_prefix)
+    _export_objects_to_obj(exportable, obj_path, mtl_filename,
+                           group_prefix=group_prefix,
+                           filter_3d_only=filter_3d_only,
+                           scale_factor=scale_factor)
     print(f"  OBJ exported: {obj_path}")
     return obj_path
 
 
-def export_combined_obj(stacked_doc, output_dir):
+def export_combined_obj(stacked_doc, output_dir, filter_3d_only=True, scale_factor=0.001):
     """Export the combined stacked model to OBJ with per-floor named groups.
 
     Parameters
@@ -221,6 +284,10 @@ def export_combined_obj(stacked_doc, output_dir):
         The combined stacked model document.
     output_dir : str
         Directory to write .obj and .mtl files.
+    filter_3d_only : bool
+        If True, skip 2D-only objects (wires, dimensions, text).
+    scale_factor : float
+        Vertex scale factor. Default 0.001 converts mm to meters.
 
     Returns
     -------
@@ -247,6 +314,8 @@ def export_combined_obj(stacked_doc, output_dir):
         print("  Combined OBJ export: no exportable objects found, skipping")
         return None
 
-    _export_objects_to_obj(exportable, obj_path, "tubehouse.mtl", group_prefix="")
+    _export_objects_to_obj(exportable, obj_path, "tubehouse.mtl", group_prefix="",
+                           filter_3d_only=filter_3d_only,
+                           scale_factor=scale_factor)
     print(f"  Combined OBJ exported: {obj_path}")
     return obj_path

@@ -71,6 +71,12 @@ MATERIAL_DEFINITIONS = {
         "metallic": 0.0,
         "description": "Bathroom tile finish",
     },
+    "Ground_Concrete": {
+        "base_color": (0.35, 0.37, 0.34, 1.0),
+        "roughness": 0.90,
+        "metallic": 0.0,
+        "description": "Ground plane concrete/asphalt",
+    },
 }
 
 ROOM_MATERIAL_MAP = {
